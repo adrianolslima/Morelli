@@ -20,23 +20,17 @@ public class Morelli {
 	public static void main(String args[]) {
 
 		Locale currentLocale = Locale.getDefault();
-		Locale ptBR = new Locale("pt", "BR");
-		Locale vmLocale = Locale.getDefault(); // Locale da VM (pergunta de certificação)
+//		Locale currentLocale = new Locale("pt", "BR");
+//		Locale currentLocale = Locale.US;
+		Locale vmLocale = Locale.getDefault(); // Locale da VM
 		ResourceBundle bundle = ResourceBundle.getBundle(
 				"mensagens/ApplicationMessages", currentLocale);
 
 		DateFormat dateFormat = DateFormat.getInstance();
 		NumberFormat numberFormat = NumberFormat.getInstance();
 
-		printMessages(bundle);
-
 		AtorJogador jogador = new AtorJogador(bundle);
 
-	}
-
-	private static void printMessages(ResourceBundle bundle) {
-		System.out.println(bundle.getString("CountryName"));
-		System.out.println(bundle.getString("CurrencyName"));
 	}
 
 }

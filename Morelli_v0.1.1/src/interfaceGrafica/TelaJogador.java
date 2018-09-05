@@ -35,8 +35,7 @@ public class TelaJogador extends javax.swing.JFrame {
     	
         initComponents();
         this.defineFaixas();
-
-//        this.inserePreta(botoesVermelhos, 1);
+        
         jogo = atorJogador;
     }
 
