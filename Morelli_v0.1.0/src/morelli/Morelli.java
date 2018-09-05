@@ -9,7 +9,7 @@ import interfaceGrafica.AtorJogador;
 
 /**
  *
- * @author Adriano
+ * @author Adriano Lima
  */
 public class Morelli {
 
