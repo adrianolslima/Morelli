@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="dist/lib/netbeans_databindingme_pim.jar"/>
+	<classpathentry kind="lib" path="dist/lib/netbeans_databindingme_svg.jar"/>
+	<classpathentry kind="lib" path="dist/lib/netbeans_databindingme.jar"/>
+	<classpathentry kind="lib" path="dist/lib/NetGamesFileOffline.jar"/>
+	<classpathentry kind="lib" path="dist/lib/ngnrtFramework.jar"/>
+	<classpathentry kind="lib" path="dist/lib/servidor.jar"/>
+	<classpathentry kind="lib" path="dist/Morelli.jar"/>
+	<classpathentry kind="lib" path="netgames/NetGamesFileOffline.jar"/>
+	<classpathentry kind="lib" path="netgames/servidor.jar"/>
+	<classpathentry kind="lib" path="ngnrtFramework.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
