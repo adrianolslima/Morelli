@@ -1,12 +1,6 @@
 package interfaceGrafica;
 
-import entidades.Faixa;
-import entidades.JogadaMorelli;
-import entidades.Jogador;
-import entidades.NetGames;
-import entidades.Posicao;
-import entidades.Tabuleiro;
-import entidades.TipoJogada;
+import entidades.*;
 
 import java.util.ResourceBundle;
 
@@ -57,10 +51,6 @@ public class AtorJogador {
         return jogador;
     }
 
-    /**
-     *
-     * @param vez
-     */
     public void setDaVez(boolean vez) {
         this.daVez = vez;
     }
@@ -75,38 +65,18 @@ public class AtorJogador {
         if (!conectado) {
 
             //Dados para a conexão 
-            String ip = this.solicitaIpServidor();
-            String nomeJogador = this.solicitaNomeJogador();
+            String ip = tela.solicitarIpServidor();
+            String nomeJogador = tela.solicitarNomeJogador();
 
             //Faz a conexão
             conectado = netGames.conectar(ip, nomeJogador);
 
         } else {
+        	
             notificarConectado();
         }
+        
         informarEstadoConexao();
-    }
-
-    public String solicitaIpServidor() {
-
-        String ip = "";
-
-        while (ip.trim().isEmpty()) {
-            ip = JOptionPane.showInputDialog(this.msgs.getString("ServerIP") + ":", "");
-        }
-
-        return ip;
-    }
-
-    public String solicitaNomeJogador() {
-
-        String nome = "";
-
-        while (nome.trim().isEmpty()) {
-            nome = JOptionPane.showInputDialog(this.msgs.getString("YourName") + ":", "");
-        }
-
-        return nome;
     }
 
     public void desconectar() {
@@ -344,6 +314,7 @@ public class AtorJogador {
     }
 
     public void informarEstadoConexao() {
+    	
         if (conectado) {
             tela.setPainel(msgs.getString("Connected"));
         } else {

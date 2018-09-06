@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
@@ -4521,5 +4522,27 @@ public class TelaJogador extends javax.swing.JFrame {
 
     public void setPainel(String mensagem) {
         painel.setText(mensagem);
+    }
+
+    public String solicitarIpServidor() {
+
+        String ip = "";
+
+        while (ip.trim().isEmpty()) {
+            ip = JOptionPane.showInputDialog(this.msgs.getString("ServerIP") + ":", "");
+        }
+
+        return ip;
+    }
+
+    public String solicitarNomeJogador() {
+
+        String nome = "";
+
+        while (nome.trim().isEmpty()) {
+            nome = JOptionPane.showInputDialog(this.msgs.getString("YourName") + ":", "");
+        }
+
+        return nome;
     }
 }
