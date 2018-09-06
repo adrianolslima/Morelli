@@ -28,15 +28,8 @@ public class Morelli {
 		DateFormat dateFormat = DateFormat.getInstance();
 		NumberFormat numberFormat = NumberFormat.getInstance();
 
-		printMessages(bundle);
-
 		AtorJogador jogador = new AtorJogador(bundle);
 
-	}
-
-	private static void printMessages(ResourceBundle bundle) {
-		System.out.println(bundle.getString("CountryName"));
-		System.out.println(bundle.getString("CurrencyName"));
 	}
 
 }

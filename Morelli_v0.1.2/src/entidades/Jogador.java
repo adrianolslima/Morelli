@@ -16,10 +16,6 @@ public class Jogador {
         this.abandonarPartida = false;
     }
 
-    /**
-     *
-     * @param nome
-     */
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -36,10 +32,6 @@ public class Jogador {
         return pecasPretas;
     }
 
-    /**
-     *
-     * @param daVez
-     */
     public void setDaVez(boolean daVez) {
         this.daVez = daVez;
     }
@@ -48,10 +40,6 @@ public class Jogador {
         return daVez;
     }
 
-    /**
-     *
-     * @param vencedor
-     */
     public void setVencedor(boolean vencedor) {
         this.vencedor = vencedor;
     }
@@ -60,10 +48,6 @@ public class Jogador {
         return vencedor;
     }
 
-    /**
-     *
-     * @param abandonarPartida
-     */
     public void setAbandonarPartida(boolean abandonarPartida) {
         this.abandonarPartida = abandonarPartida;
     }

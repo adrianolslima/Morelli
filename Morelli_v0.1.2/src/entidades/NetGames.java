@@ -33,12 +33,17 @@ public class NetGames implements OuvidorProxy {
      * @return
      */
     public boolean conectar(String ip, String nomeJogador) {
+    	
         try {
+        	
             this.proxy.conectar(ip, nomeJogador);
             return true;
+            
         } catch (Exception e) {
+        	
             atorJogador.notificar(e.getMessage());
         }
+        
         return false;
     }
 
