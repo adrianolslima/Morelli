@@ -61,39 +61,42 @@ public class AtorJogador {
 
     public void conectar() {
 
-        //Testa se ja esta conectado antes de tentar se conectar
+        /*--- Testa se ja esta conectado antes de tentar se conectar ---*/
         if (!conectado) {
 
-            //Dados para a conexão 
+            /*--- Dados para a conexao ---*/ 
             String ip = tela.solicitarIpServidor();
             String nomeJogador = tela.solicitarNomeJogador();
 
-            //Faz a conexão
+            /*--- Faz a conexão ---*/
             conectado = netGames.conectar(ip, nomeJogador);
 
         } else {
         	
-            notificarConectado();
+            tela.notificarConectado();
         }
         
-        informarEstadoConexao();
+        tela.informarEstadoConexao(conectado);
     }
 
     public void desconectar() {
 
         if (conectado) {
+        	
             tabuleiro.setPartidaEmAndamento(false);
             conectado = netGames.desconectar();
+            
         } else {
-            notificarDesconectado();
+        	
+            tela.notificarDesconectado();
         }
 
-        this.informarEstadoConexao();
+        tela.informarEstadoConexao(conectado);
     }
 
     public void iniciarPartida() {
 
-        //Verifica se ha partida em andamento
+        /*--- Verifica se ha partida em andamento ---*/
         if (tabuleiro.isPartidaEmAndamento()) {
 
             notificarPartidaEmAndamento();
@@ -313,16 +316,6 @@ public class AtorJogador {
         JOptionPane.showMessageDialog(tela, msg);
     }
 
-    public void informarEstadoConexao() {
-    	
-        if (conectado) {
-            tela.setPainel(msgs.getString("Connected"));
-        } else {
-            tela.setPainel(msgs.getString("Disonnected"));
-        }
-
-    }
-
     public void notificarFalhaDesconexao() {
         JOptionPane.showMessageDialog(tela, msgs.getString("FailedToConnect"));
     }
@@ -353,13 +346,5 @@ public class AtorJogador {
 
     public void notificaJaConectado() {
         tela.setPainel(msgs.getString("YouAreAlreadyConnected"));
-    }
-
-    public void notificarConectado() {
-        JOptionPane.showMessageDialog(tela, msgs.getString("YouAreAlreadyConnected"));
-    }
-
-    public void notificarDesconectado() {
-        JOptionPane.showMessageDialog(tela, msgs.getString("YouAreAlreadyConnected"));
     }
 }

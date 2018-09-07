@@ -4545,4 +4545,22 @@ public class TelaJogador extends javax.swing.JFrame {
 
         return nome;
     }
+
+    public void notificarConectado() {
+        JOptionPane.showMessageDialog(this, this.msgs.getString("YouAreAlreadyConnected"));
+    }
+
+    public void notificarDesconectado() {
+        JOptionPane.showMessageDialog(this, this.msgs.getString("YouAreAlreadyConnected"));
+    }
+
+    public void informarEstadoConexao(boolean conectado) {
+    	
+        if (conectado) {
+            setPainel(msgs.getString("Connected"));
+        } else {
+            setPainel(msgs.getString("Disonnected"));
+        }
+
+    }
 }

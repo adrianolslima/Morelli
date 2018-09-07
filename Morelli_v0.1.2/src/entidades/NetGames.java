@@ -1,13 +1,6 @@
 package entidades;
 
-import br.ufsc.inf.leobr.cliente.Jogada;
-import br.ufsc.inf.leobr.cliente.OuvidorProxy;
-import br.ufsc.inf.leobr.cliente.Proxy;
-import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
-import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
-import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
-import br.ufsc.inf.leobr.cliente.exception.NaoJogandoException;
-import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
+import br.ufsc.inf.leobr.cliente.*;
 import interfaceGrafica.AtorJogador;
 import java.util.logging.Level;
 import java.util.logging.Logger;
