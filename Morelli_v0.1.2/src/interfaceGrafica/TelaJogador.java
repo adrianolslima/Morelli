@@ -4547,10 +4547,12 @@ public class TelaJogador extends javax.swing.JFrame {
     }
 
     public void notificarConectado() {
+    	
         JOptionPane.showMessageDialog(this, this.msgs.getString("YouAreAlreadyConnected"));
     }
 
     public void notificarDesconectado() {
+    	
         JOptionPane.showMessageDialog(this, this.msgs.getString("YouAreAlreadyConnected"));
     }
 
@@ -4561,6 +4563,50 @@ public class TelaJogador extends javax.swing.JFrame {
         } else {
             setPainel(msgs.getString("Disonnected"));
         }
+    }
 
+    public void notificarIrregularidade() {
+    	
+        JOptionPane.showMessageDialog(this, msgs.getString("IrregularPlay"));
+    }
+
+    public void notificar(String msg) {
+    	
+        JOptionPane.showMessageDialog(this, msg);
+    }
+
+    public void notificarFalhaDesconexao() {
+    	
+        JOptionPane.showMessageDialog(this, msgs.getString("FailedToConnect"));
+    }
+
+    public void notificarPartidaEmAndamento() {
+    	
+        setPainel(msgs.getString("ThereIsAMatchInProgress"));
+    }
+
+    public void notificarResultado(String msg) {
+    	
+        setPainel(msg);
+    }
+
+    public void exibeMensagemEmpate() {
+    	
+        setPainel(msgs.getString("TheDealWasAcceptedAndTheMatchEndedTied"));
+    }
+
+    public void exibeMensagemAcordoNegado() {
+    	
+        setPainel(msgs.getString("TheDealWasDeniedAndTheMatchWillContinue"));
+    }
+
+    public void notificaNaoJogando() {
+    	
+        JOptionPane.showMessageDialog(this, msgs.getString("ItIsNotYourTurn"));
+    }
+
+    public void notificaJaConectado() {
+    	
+        setPainel(msgs.getString("YouAreAlreadyConnected"));
     }
 }

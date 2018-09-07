@@ -99,7 +99,7 @@ public class AtorJogador {
         /*--- Verifica se ha partida em andamento ---*/
         if (tabuleiro.isPartidaEmAndamento()) {
 
-            notificarPartidaEmAndamento();
+            tela.notificarPartidaEmAndamento();
 
             if (this.confirmarReiniciarPartida()) {
                 netGames.reiniciarPartida();
@@ -145,7 +145,7 @@ public class AtorJogador {
 
     public void finalizarPartidaEmpate() {
         tabuleiro.setPartidaEmAndamento(false);
-        this.exibeMensagemEmpate();
+        tela.exibeMensagemEmpate();
     }
 
     public boolean confirmarReiniciarPartida() {
@@ -264,7 +264,7 @@ public class AtorJogador {
                     finalizarPartidaEmpate();
                     break;
                 case acordoNegado:
-                    exibeMensagemAcordoNegado();
+                    tela.exibeMensagemAcordoNegado();
                     break;
                 case abandonarPartida:
                     tabuleiro.setPartidaEmAndamento(false);
@@ -307,44 +307,13 @@ public class AtorJogador {
         tela.atualizaTabuleiro(tabuleiroAtualizado);
     }
 
-    public void notificarIrregularidade() {
-        JOptionPane.showMessageDialog(tela, msgs.getString("IrregularPlay"));
-
-    }
-
-    public void notificar(String msg) {
-        JOptionPane.showMessageDialog(tela, msg);
-    }
-
-    public void notificarFalhaDesconexao() {
-        JOptionPane.showMessageDialog(tela, msgs.getString("FailedToConnect"));
-    }
-
-    public void notificarPartidaEmAndamento() {
-        tela.setPainel(msgs.getString("ThereIsAMatchInProgress"));
-    }
-
-    public void notificarResultado(String msg) {
-        tela.setPainel(msg);
-    }
-
-    public void exibeMensagemEmpate() {
-        tela.setPainel(msgs.getString("TheDealWasAcceptedAndTheMatchEndedTied"));
-    }
-
     public void informaPartidaEncerrada() {
+    	
         tabuleiro.finalizaPartida();
     }
 
-    public void exibeMensagemAcordoNegado() {
-        tela.setPainel(msgs.getString("TheDealWasDeniedAndTheMatchWillContinue"));
-    }
-
-    public void notificaNaoJogando() {
-        JOptionPane.showMessageDialog(tela, msgs.getString("ItIsNotYourTurn"));
-    }
-
-    public void notificaJaConectado() {
-        tela.setPainel(msgs.getString("YouAreAlreadyConnected"));
+    public void notificar(String msg) {
+    	
+        tela.notificar(msg);
     }
 }
