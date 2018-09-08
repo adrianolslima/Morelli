@@ -2,8 +2,11 @@ package entidades;
 
 import interfaceGrafica.AtorJogador;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 public class Tabuleiro {
+    
+    protected ResourceBundle msgs;
 
     protected AtorJogador atorJogador;
     protected Ajuda ajuda;
@@ -20,7 +23,9 @@ public class Tabuleiro {
     protected Posicao posicaoOrigem;
     protected Posicao posicaoDestino;
 
-    public Tabuleiro(AtorJogador atorJogador) {
+    public Tabuleiro(AtorJogador atorJogador, ResourceBundle msgs) {
+    	
+    	this.msgs = msgs;
 
         this.atorJogador = atorJogador;
 
@@ -28,7 +33,7 @@ public class Tabuleiro {
 
         this.partidaEmAndamento = false;
 
-        this.tabuleiro = new Faixa[7]; //O tabuleiro sempre tem 7 faixas
+        this.tabuleiro = new Faixa[7]; // O tabuleiro sempre tem 7 faixas
 
         this.proximoJogador = null;
         this.posicaoOrigem = null;
@@ -468,12 +473,12 @@ public class Tabuleiro {
 
         //Verifica se a posicao de destino esta ocupada
         if (destino.isOcupada()) {
-            atorJogador.notificarIrregularidade();
+            atorJogador.notificar(msgs.getString("IrregularPlay"));
         } else {
 
             //Verifica se a peca se move em direcao ao centro do tabuleiro
             if (!movimentoAoCentro(origem, destino)) {
-                atorJogador.notificarIrregularidade();
+                atorJogador.notificar(msgs.getString("IrregularPlay"));
 
             } //Verifica se a peca se move na mesma linha
             else if (calcularMovimentoLinha(origem, destino)) {

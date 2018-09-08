@@ -26,7 +26,7 @@ public class AtorJogador {
     public AtorJogador(ResourceBundle msgs) {
 
         this.netGames = new NetGames(this);
-        this.tabuleiro = new Tabuleiro(this);
+        this.tabuleiro = new Tabuleiro(this, msgs);
         
         this.msgs = msgs;
 
@@ -61,14 +61,11 @@ public class AtorJogador {
 
     public void conectar() {
 
-        /*--- Testa se ja esta conectado antes de tentar se conectar ---*/
         if (!conectado) {
 
-            /*--- Dados para a conexao ---*/ 
             String ip = tela.solicitarIpServidor();
             String nomeJogador = tela.solicitarNomeJogador();
 
-            /*--- Faz a conexão ---*/
             conectado = netGames.conectar(ip, nomeJogador);
 
         } else {
@@ -96,25 +93,30 @@ public class AtorJogador {
 
     public void iniciarPartida() {
 
-        /*--- Verifica se ha partida em andamento ---*/
-        if (tabuleiro.isPartidaEmAndamento()) {
+    	if(conectado) {
 
-            tela.notificarPartidaEmAndamento();
+    		if (tabuleiro.isPartidaEmAndamento()) {
 
-            if (this.confirmarReiniciarPartida()) {
-                netGames.reiniciarPartida();
-            }
+    			tela.notificarPartidaEmAndamento();
 
-        } else {
-            tabuleiro.setPartidaEmAndamento(true);
-            netGames.iniciarPartida();
-        }
+    			if (confirmarReiniciarPartida()) {
+
+    				abandonarPartida();
+    				netGames.reiniciarPartida();
+    			}
+
+    		} else {
+
+    			tabuleiro.setPartidaEmAndamento(true);
+    			netGames.iniciarPartida();
+    		}
+
+    	} else {
+
+    		tela.notificarDesconectado();
+    	}
     }
 
-    /**
-     *
-     * @param ordem
-     */
     public void receberSolicitacaoInicio(int ordem) {
 
         if (ordem == 1) {
@@ -173,11 +175,6 @@ public class AtorJogador {
         return tabuleiro.getAjuda();
     }
 
-    /**
-     * @param peca
-     * @param origem
-     * @param destino
-     */
     public void movimentarPeca(Posicao origem, Posicao destino) {
         try {
             if (daVez && tabuleiro.isPartidaEmAndamento()) {
@@ -199,10 +196,6 @@ public class AtorJogador {
         }
     }
 
-    /**
-     *
-     * @param tipo
-     */
     public void enviarJogada(TipoJogada tipoJogada) {
 
         if (daVez && tabuleiro.isPartidaEmAndamento()) {
@@ -245,10 +238,6 @@ public class AtorJogador {
         }
     }
 
-    /**
-     *
-     * @param jogada
-     */
     public void receberJogada(JogadaMorelli jogada) {
 
         setDaVez(true);
@@ -297,10 +286,6 @@ public class AtorJogador {
         }
     }
 
-    /**
-     *
-     * @param tabuleiro
-     */
     public void atualizaTabuleiro(Faixa[] tabuleiroAtualizado) {
         this.tabuleiroAtualizado = tabuleiroAtualizado;
         tabuleiro.atualizarTabuleiro(tabuleiroAtualizado);
