@@ -85,7 +85,7 @@ public class AtorJogador {
             
         } else {
         	
-            tela.notificarDesconectado();
+            tela.notificar(msgs.getString("YouAreAlreadyDisconnected"));
         }
 
         tela.informarEstadoConexao(conectado);
@@ -112,8 +112,8 @@ public class AtorJogador {
     		}
 
     	} else {
-
-    		tela.notificarDesconectado();
+        	
+            tela.notificar(msgs.getString("YouAreDisconnected"));
     	}
     }
 
