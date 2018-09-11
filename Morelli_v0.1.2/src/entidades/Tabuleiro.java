@@ -9,7 +9,6 @@ public class Tabuleiro {
     protected ResourceBundle msgs;
 
     protected AtorJogador atorJogador;
-    protected Ajuda ajuda;
 
     protected boolean partidaEmAndamento;
 
@@ -29,8 +28,6 @@ public class Tabuleiro {
 
         this.atorJogador = atorJogador;
 
-        this.ajuda = new Ajuda();
-
         this.partidaEmAndamento = false;
 
         this.tabuleiro = new Faixa[7]; // O tabuleiro sempre tem 7 faixas
@@ -40,33 +37,28 @@ public class Tabuleiro {
         this.posicaoDestino = null;
     }
 
-    /**
-     *
-     * @param partidaEmAndamento
-     */
     public void setPartidaEmAndamento(boolean partidaEmAndamento) {
-        this.partidaEmAndamento = partidaEmAndamento;
+    
+    	this.partidaEmAndamento = partidaEmAndamento;
     }
 
     public boolean isPartidaEmAndamento() {
-        return this.partidaEmAndamento;
+   
+    	return this.partidaEmAndamento;
     }
 
     public void atualizarTabuleiro(Faixa[] tabuleiro) {
-        this.tabuleiro = tabuleiro;
+        
+    	this.tabuleiro = tabuleiro;
     }
 
     public Faixa[] getTabuleiro() {
-        return tabuleiro;
+        
+    	return tabuleiro;
     }
 
-    /**
-     *
-     * @param jogador
-     */
     public Faixa[] iniciarPartida(Jogador jogador, int ordem, String nomeJogador1, String nomeJogador2) {
 
-        //Cria os jogadores
         jogador1 = new Jogador(nomeJogador1);
         jogador2 = new Jogador(nomeJogador2);
 
@@ -126,55 +118,45 @@ public class Tabuleiro {
     }
 
     public void abandonarPartida() {
-        this.partidaEmAndamento = false;
+    
+    	this.partidaEmAndamento = false;
     }
 
     public void realizarAcordo() {
-        atorJogador.realizarAcordo();
-    }
-
-    public String getAjuda() {
-        return ajuda.getAjuda();
+        
+    	atorJogador.realizarAcordo();
     }
 
     public void atualizaJogadorDaVez() {
-        AtorJogador aux = this.atorJogador;
+        
+    	AtorJogador aux = this.atorJogador;
         this.atorJogador = this.proximoJogador;
         this.proximoJogador = aux;
     }
 
     public Posicao getPosicaoOrigem() {
-        return posicaoOrigem;
+        
+    	return posicaoOrigem;
     }
 
-    /**
-     *
-     * @param posicaoOrigem
-     */
     public void setPosicaoOrigem(Posicao posicaoOrigem) {
-        this.posicaoOrigem = posicaoOrigem;
+    
+    	this.posicaoOrigem = posicaoOrigem;
     }
 
     public Posicao getPosicaoDestino() {
-        return posicaoDestino;
+        
+    	return posicaoDestino;
     }
 
-    /**
-     *
-     * @param posicaoDestino
-     */
     public void setPosicaoDestino(Posicao posicaoDestino) {
-        this.posicaoDestino = posicaoDestino;
+    
+    	this.posicaoDestino = posicaoDestino;
     }
 
-    /**
-     *
-     * @param origem
-     * @param destino
-     * @return
-     */
     public boolean movimentoAoCentro(Posicao origem, Posicao destino) {
-        return origem.getFaixa() > destino.getFaixa();
+        
+    	return origem.getFaixa() > destino.getFaixa();
     }
 
     public boolean calcularMovimentoLinha(Posicao origem, Posicao destino) {
@@ -226,7 +208,8 @@ public class Tabuleiro {
     }
 
     public boolean calcularMovimentoDiagonal(Posicao origem, Posicao destino) {
-        int linhaOrigem = origem.getLinha();
+        
+    	int linhaOrigem = origem.getLinha();
         int colunaOrigem = origem.getColuna();
 
         int linhaDestino = destino.getLinha();
@@ -252,12 +235,9 @@ public class Tabuleiro {
         return false;
     }
 
-    /**
-     *
-     * @param destino
-     */
     public void calcularCaptura(Posicao destino) {
-        try {
+    
+    	try {
             boolean cor = destino.getCor();
 
             Posicao[] posicoes = verificarAdjacentes(destino);
@@ -292,7 +272,8 @@ public class Tabuleiro {
     }
 
     public Posicao[] verificarAdjacentes(Posicao destino) {
-        int linha = destino.getLinha();
+    
+    	int linha = destino.getLinha();
         int coluna = destino.getColuna();
         boolean cor = destino.getCor();
 
@@ -382,10 +363,6 @@ public class Tabuleiro {
         return adjacentes;
     }
 
-    /**
-     *
-     * @param posicao
-     */
     public void calcularTomadaTrono(Posicao posicao) {
 
         int faixa = posicao.getFaixa();
@@ -432,17 +409,14 @@ public class Tabuleiro {
         }
     }
 
-    /**
-     *
-     * @param faixa
-     */
     public int calcularVerticeFaixa(Faixa faixa) {
         // TODO - implement Tabuleiro.calcularVerticeFaixa
         throw new UnsupportedOperationException();
     }
 
     public JogadaMorelli criaJogadaDeFinalizacaoPartida() {
-        JogadaMorelli jogada = new JogadaMorelli(TipoJogada.encerramento);
+    
+    	JogadaMorelli jogada = new JogadaMorelli(TipoJogada.encerramento);
         return jogada;
     }
 
@@ -452,16 +426,11 @@ public class Tabuleiro {
     }
 
     public void finalizaPartida() {
-        setPartidaEmAndamento(false);
+        
+    	setPartidaEmAndamento(false);
         AtorJogador novoVencedor = this.proximoJogador;
     }
 
-    /**
-     *
-     * @param peca
-     * @param origem
-     * @param destino
-     */
     public boolean calcularMovimento(Posicao origem, Posicao destino) {
 
         //O trono não pode receber movimento; deve ser conquistado
@@ -506,14 +475,16 @@ public class Tabuleiro {
     }
 
     public void moverPeca(Posicao origem, Posicao destino) {
-        destino.posicionarPeca(origem.getCor());
+    
+    	destino.posicionarPeca(origem.getCor());
         origem.retirarPeca();
         atualizarPosicaoTabuleiro(origem);
         atualizarPosicaoTabuleiro(destino);
     }
 
     public void atualizarPosicaoTabuleiro(Posicao posicao) {
-        int ordemFaixa = posicao.getFaixa();
+   
+    	int ordemFaixa = posicao.getFaixa();
         Posicao[] faixa = tabuleiro[ordemFaixa].getPosicoes();
         for (int i = 0; i < faixa.length; i++) {
             if (posicao.getLinha() == faixa[i].getLinha()) {

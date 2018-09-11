@@ -13,6 +13,7 @@ public class AtorJogador {
     protected TelaJogador tela;
     
     protected ResourceBundle msgs;
+    protected Ajuda ajuda;
 
     protected boolean conectado;
 
@@ -29,6 +30,7 @@ public class AtorJogador {
         this.tabuleiro = new Tabuleiro(this, msgs);
         
         this.msgs = msgs;
+        this.ajuda = new Ajuda();
 
         this.tela = new TelaJogador(this, msgs);
         this.tela.setVisible(true);
@@ -44,18 +46,22 @@ public class AtorJogador {
     }
 
     public void setJogador(Jogador jogador) {
+    	
         this.jogador = jogador;
     }
 
     public Jogador getJogador() {
+    	
         return jogador;
     }
 
     public void setDaVez(boolean vez) {
+    	
         this.daVez = vez;
     }
 
     public boolean isDaVez() {
+    	
         return daVez;
     }
 
@@ -120,12 +126,15 @@ public class AtorJogador {
     public void receberSolicitacaoInicio(int ordem) {
 
         if (ordem == 1) {
+        	
             tela.setPainel(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
             tela.setPainel(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
             tela.setPainel(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
             tela.setPainel(msgs.getString("YourOpponentStartsPlaying"));
             setDaVez(true);
+            
         } else {
+        	
             tela.setPainel(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
             tela.setPainel(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
             tela.setPainel(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
@@ -172,7 +181,8 @@ public class AtorJogador {
     }
 
     public String ajuda() {
-        return tabuleiro.getAjuda();
+    	
+        return ajuda.getAjuda();
     }
 
     public void movimentarPeca(Posicao origem, Posicao destino) {

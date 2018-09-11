@@ -13,6 +13,7 @@ public class Ajuda {
     }
 
     public String getAjuda() {
+    	
         String instrucoes = "";
 
         for (String ajuda1 : this.ajuda) {

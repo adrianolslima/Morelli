@@ -20,11 +20,6 @@ public class NetGames implements OuvidorProxy {
         this.proxy.addOuvinte(this);
     }
 
-    /**
-     * @param ip
-     * @param nomeJogador
-     * @return
-     */
     public boolean conectar(String ip, String nomeJogador) {
     	
         try {
@@ -41,7 +36,8 @@ public class NetGames implements OuvidorProxy {
     }
 
     public boolean desconectar() {
-        try {
+    
+    	try {
             this.proxy.desconectar();
             return false;
         } catch (Exception e) {
@@ -51,7 +47,8 @@ public class NetGames implements OuvidorProxy {
     }
 
     public void iniciarPartida() {
-        try {
+    
+    	try {
             this.proxy.iniciarPartida(2);
         } catch (Exception e) {
             atorJogador.notificar(e.getMessage());
@@ -60,11 +57,13 @@ public class NetGames implements OuvidorProxy {
 
     @Override
     public void iniciarNovaPartida(Integer posicao) {
+    	
         atorJogador.receberSolicitacaoInicio(posicao);
     }
 
     public void enviarJogada(JogadaMorelli jogada) {
-        try {
+    
+    	try {
             Proxy.getInstance().enviaJogada(jogada);
         } catch (Exception e) {
             atorJogador.notificar(e.getMessage());
@@ -72,7 +71,8 @@ public class NetGames implements OuvidorProxy {
     }
 
     public void reiniciarPartida() {
-        try {
+        
+    	try {
             proxy.reiniciarPartida();
         } catch (Exception e) {
             atorJogador.notificar(e.getMessage());
@@ -80,7 +80,8 @@ public class NetGames implements OuvidorProxy {
     }
 
     public void finalizarPartida() {
-        try {
+        
+    	try {
             proxy.finalizarPartida();
         } catch (Exception e) {
             atorJogador.notificar(e.getMessage());
@@ -89,15 +90,18 @@ public class NetGames implements OuvidorProxy {
 
     @Override
     public void receberJogada(Jogada jogada) {
-        atorJogador.receberJogada((JogadaMorelli) jogada);
+     
+    	atorJogador.receberJogada((JogadaMorelli) jogada);
     }
 
     public String getNomeJogador() {
-        return proxy.getNomeJogador();
+        
+    	return proxy.getNomeJogador();
     }
 
     public String getNomeAdversario(int posicao) {
-        return proxy.obterNomeAdversario(posicao);
+        
+    	return proxy.obterNomeAdversario(posicao);
     }
 
     @Override
@@ -108,7 +112,8 @@ public class NetGames implements OuvidorProxy {
 
     @Override
     public void tratarConexaoPerdida() {
-        String msg = "A conexão com o servidor foi perdida. Partida encerrada";
+        
+    	String msg = "A conexão com o servidor foi perdida. Partida encerrada";
         atorJogador.notificar(msg);
     }
 
@@ -119,6 +124,7 @@ public class NetGames implements OuvidorProxy {
 
     @Override
     public void receberMensagem(String msg) {
-        atorJogador.notificar(msg);
+        
+    	atorJogador.notificar(msg);
     }
 }
