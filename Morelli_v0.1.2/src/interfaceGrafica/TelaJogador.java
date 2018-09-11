@@ -4560,11 +4560,6 @@ public class TelaJogador extends javax.swing.JFrame {
         }
     }
 
-    public void notificarIrregularidade() {
-    	
-        JOptionPane.showMessageDialog(this, msgs.getString("IrregularPlay"));
-    }
-
     public void notificar(String msg) {
     	
         JOptionPane.showMessageDialog(this, msg);

@@ -442,12 +442,12 @@ public class Tabuleiro {
 
         //Verifica se a posicao de destino esta ocupada
         if (destino.isOcupada()) {
-            atorJogador.notificar(msgs.getString("IrregularPlay"));
+            atorJogador.notificarIrregularidade();
         } else {
 
             //Verifica se a peca se move em direcao ao centro do tabuleiro
             if (!movimentoAoCentro(origem, destino)) {
-                atorJogador.notificar(msgs.getString("IrregularPlay"));
+                atorJogador.notificarIrregularidade();
 
             } //Verifica se a peca se move na mesma linha
             else if (calcularMovimentoLinha(origem, destino)) {

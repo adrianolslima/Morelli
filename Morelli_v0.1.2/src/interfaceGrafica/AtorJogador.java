@@ -311,4 +311,9 @@ public class AtorJogador {
     	
         tela.notificar(msg);
     }
+
+    public void notificarIrregularidade() {
+    	
+    	tela.notificar(msgs.getString("IrregularPlay"));
+    }
 }
