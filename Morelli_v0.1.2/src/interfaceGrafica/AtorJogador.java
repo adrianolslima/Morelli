@@ -88,6 +88,7 @@ public class AtorJogador {
         	
             tabuleiro.setPartidaEmAndamento(false);
             conectado = netGames.desconectar();
+            tela.notificar(msgs.getString("YouAreDisconnected"));
             
         } else {
         	
