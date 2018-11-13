@@ -72,14 +72,14 @@ public class AtorJogador {
             String ip = tela.solicitarIpServidor();
             String nomeJogador = tela.solicitarNomeJogador();
 
-            conectado = netGames.conectar(ip, nomeJogador);
+            conectado = tabuleiro.conectar(ip, nomeJogador);
 
         } else {
         	
-            tela.notificarConectado();
+            tela.notificar(msgs.getString("YouAreAlreadyConnected"));
         }
         
-        tela.informarEstadoConexao(conectado);
+        tela.informar(msgs.getString("Connected"));
     }
 
     public void desconectar() {

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 public class NetGames implements OuvidorProxy {
 
     protected AtorJogador atorJogador;
+    protected Tabuleiro tabuleiro;
     protected Proxy proxy;
 
     public NetGames(AtorJogador atorJogador) {
@@ -15,6 +16,16 @@ public class NetGames implements OuvidorProxy {
         super();
 
         this.atorJogador = atorJogador;
+        this.proxy = Proxy.getInstance();
+
+        this.proxy.addOuvinte(this);
+    }
+
+    public NetGames(Tabuleiro tabuleiro) {
+
+        super();
+
+        this.tabuleiro = tabuleiro;
         this.proxy = Proxy.getInstance();
 
         this.proxy.addOuvinte(this);

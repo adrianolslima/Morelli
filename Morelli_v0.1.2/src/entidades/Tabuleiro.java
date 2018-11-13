@@ -9,6 +9,7 @@ public class Tabuleiro {
     protected ResourceBundle msgs;
 
     protected AtorJogador atorJogador;
+    protected NetGames netGames;
 
     protected boolean partidaEmAndamento;
 
@@ -27,6 +28,7 @@ public class Tabuleiro {
     	this.msgs = msgs;
 
         this.atorJogador = atorJogador;
+        this.netGames = new NetGames(this);
 
         this.partidaEmAndamento = false;
 
@@ -494,6 +496,11 @@ public class Tabuleiro {
                 }
             }
         }
+    }
+    
+    public boolean conectar(String ip, String nomeJogador) {
+    	
+    	return netGames.conectar(ip, nomeJogador);
     }
 
 }
