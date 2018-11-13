@@ -4560,11 +4560,6 @@ public class TelaJogador extends javax.swing.JFrame {
         }
     }
 
-    public void notificar(String msg) {
-    	
-        JOptionPane.showMessageDialog(this, msg);
-    }
-
     public void notificarFalhaDesconexao() {
     	
         JOptionPane.showMessageDialog(this, msgs.getString("FailedToConnect"));
@@ -4598,5 +4593,15 @@ public class TelaJogador extends javax.swing.JFrame {
     public void notificaJaConectado() {
     	
         setPainel(msgs.getString("YouAreAlreadyConnected"));
+    }
+
+    public void notificar(String msg) {
+    	
+        JOptionPane.showMessageDialog(this, msg);
+    }
+    
+    public void informar(String msg) {
+    	
+    	setPainel(msg);    	
     }
 }
