@@ -310,20 +310,26 @@ public class AtorJogador {
         }        
     }
 
+    /*--- Caso de uso: desconectar interno ---*/
     public void desconectar() {
 
         if (conectado) {
         	
-            tabuleiro.setPartidaEmAndamento(false);
-            conectado = netGames.desconectar();
-//            tela.notificar(msgs.getString("YouAreDisconnected"));
+        	try {
+        	
+            conectado = tabuleiro.desconectar();
+            
+            tela.informar(msgs.getString("Disconnected"));
+        	
+        	} catch (Exception e) {
+        		
+        		tela.notificar("Problema na desconexão. Tente novamente!");
+        	}
             
         } else {
         	
             tela.notificar(msgs.getString("YouAreAlreadyDisconnected"));
         }
-
-        //tela.informarEstadoConexao(conectado);
     }
     
 }

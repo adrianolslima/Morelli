@@ -504,4 +504,9 @@ public class Tabuleiro {
     	return netGames.conectar(ip, nomeJogador);
     }
 
+	public boolean desconectar() throws Exception {
+
+		return netGames.desconectar();
+	}
+
 }

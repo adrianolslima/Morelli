@@ -41,15 +41,12 @@ public class NetGames implements OuvidorProxy {
         return true;
     }
 
-    public boolean desconectar() {
+   /*--- Caso de uso: desconectar ---*/
+    public boolean desconectar() throws Exception {
     
-    	try {
-            this.proxy.desconectar();
-            return false;
-        } catch (Exception e) {
-            atorJogador.notificar(e.getMessage());
-        }
-        return true;
+    	this.proxy.desconectar();
+
+    	return false;
     }
 
     public void iniciarPartida() {
