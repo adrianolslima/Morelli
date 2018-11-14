@@ -10,6 +10,8 @@ public class NetGames implements OuvidorProxy {
     protected AtorJogador atorJogador;
     protected Tabuleiro tabuleiro;
     protected Proxy proxy;
+    
+    protected boolean conectado = false;
 
     public NetGames(AtorJogador atorJogador) {
 
@@ -31,19 +33,12 @@ public class NetGames implements OuvidorProxy {
         this.proxy.addOuvinte(this);
     }
 
-    public boolean conectar(String ip, String nomeJogador) {
+   /*--- Caso de uso: conectar ---*/
+   public boolean conectar(String ip, String nomeJogador) throws Exception {
     	
-        try {
-        	
-            this.proxy.conectar(ip, nomeJogador);
-            return true;
-            
-        } catch (Exception e) {
-        	
-            atorJogador.notificar(e.getMessage());
-        }
+    	this.proxy.conectar(ip, nomeJogador);
         
-        return false;
+        return true;
     }
 
     public boolean desconectar() {

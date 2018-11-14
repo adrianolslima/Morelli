@@ -285,7 +285,7 @@ public class AtorJogador {
     	tela.notificar(msgs.getString("IrregularPlay"));
     }
 
-    /*--- Caso de uso: conectar interno*/
+    /*--- Caso de uso: conectar interno ---*/
     public void conectar() {
 
         if (!conectado) {
@@ -293,9 +293,16 @@ public class AtorJogador {
             String ip = tela.solicitarIpServidor();
             String nomeJogador = tela.solicitarNomeJogador();
 
-            conectado = tabuleiro.conectar(ip, nomeJogador);
-
-            tela.informar(msgs.getString("Connected"));
+            try {
+            	
+            	conectado = tabuleiro.conectar(ip, nomeJogador);
+            	
+            	tela.informar(msgs.getString("Connected"));
+            
+            } catch (Exception e) {
+				
+            	tela.notificar("Problema na conexão. Tente novamente!");
+			}
             
         } else {
         	
