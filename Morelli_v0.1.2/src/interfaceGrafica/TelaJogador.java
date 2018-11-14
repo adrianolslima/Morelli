@@ -4496,33 +4496,35 @@ public class TelaJogador extends javax.swing.JFrame {
         }
     }
 
+    /*--- Menu --------------------------------------*/
     public void conectar() {
         jogo.conectar();
+    }
+
+    public void iniciarPartida() {
+        jogo.iniciarPartida();
+    }
+    
+    public void abandonarPartida() {
+    	jogo.abandonarPartida();
+    }
+    
+    public void realizarAcordo() {
+    	jogo.enviarJogada(TipoJogada.realizarAcordo);
     }
 
     public void desconectar() {
         jogo.desconectar();
     }
 
-    public void iniciarPartida() {
-        jogo.iniciarPartida();
-    }
-
     public void ajuda() {
-        this.setPainel(jogo.ajuda());
+    	painel.setText(jogo.ajuda());
     }
+    /*-----------------------------------------------*/
 
-    public void abandonarPartida() {
-        jogo.abandonarPartida();
-    }
-
-    public void realizarAcordo() {
-        jogo.enviarJogada(TipoJogada.realizarAcordo);
-    }
-
-    public void setPainel(String mensagem) {
-        painel.setText(mensagem);
-    }
+//    public void setPainel(String mensagem) {
+//        painel.setText(mensagem);
+//    }
 
     public String solicitarIpServidor() {
 
@@ -4554,9 +4556,9 @@ public class TelaJogador extends javax.swing.JFrame {
     public void informarEstadoConexao(boolean conectado) {
     	
         if (conectado) {
-            setPainel(msgs.getString("Connected"));
+            painel.setText(msgs.getString("Connected"));
         } else {
-            setPainel(msgs.getString("Disonnected"));
+            painel.setText(msgs.getString("Disonnected"));
         }
     }
 
@@ -4567,22 +4569,22 @@ public class TelaJogador extends javax.swing.JFrame {
 
     public void notificarPartidaEmAndamento() {
     	
-        setPainel(msgs.getString("ThereIsAMatchInProgress"));
+    	painel.setText(msgs.getString("ThereIsAMatchInProgress"));
     }
 
     public void notificarResultado(String msg) {
     	
-        setPainel(msg);
+    	painel.setText(msg);
     }
 
     public void exibeMensagemEmpate() {
     	
-        setPainel(msgs.getString("TheDealWasAcceptedAndTheMatchEndedTied"));
+    	painel.setText(msgs.getString("TheDealWasAcceptedAndTheMatchEndedTied"));
     }
 
     public void exibeMensagemAcordoNegado() {
     	
-        setPainel(msgs.getString("TheDealWasDeniedAndTheMatchWillContinue"));
+    	painel.setText(msgs.getString("TheDealWasDeniedAndTheMatchWillContinue"));
     }
 
     public void notificaNaoJogando() {
@@ -4592,7 +4594,7 @@ public class TelaJogador extends javax.swing.JFrame {
 
     public void notificaJaConectado() {
     	
-        setPainel(msgs.getString("YouAreAlreadyConnected"));
+    	painel.setText(msgs.getString("YouAreAlreadyConnected"));
     }
 
     public void notificar(String msg) {
@@ -4602,6 +4604,6 @@ public class TelaJogador extends javax.swing.JFrame {
     
     public void informar(String msg) {
     	
-    	setPainel(msg);    	
+    	painel.setText(msg);    	
     }
 }

@@ -65,39 +65,6 @@ public class AtorJogador {
         return daVez;
     }
 
-    public void conectar() {
-
-        if (!conectado) {
-
-            String ip = tela.solicitarIpServidor();
-            String nomeJogador = tela.solicitarNomeJogador();
-
-            conectado = tabuleiro.conectar(ip, nomeJogador);
-
-        } else {
-        	
-            tela.notificar(msgs.getString("YouAreAlreadyConnected"));
-        }
-        
-        tela.informar(msgs.getString("Connected"));
-    }
-
-    public void desconectar() {
-
-        if (conectado) {
-        	
-            tabuleiro.setPartidaEmAndamento(false);
-            conectado = netGames.desconectar();
-            tela.notificar(msgs.getString("YouAreDisconnected"));
-            
-        } else {
-        	
-            tela.notificar(msgs.getString("YouAreAlreadyDisconnected"));
-        }
-
-        tela.informarEstadoConexao(conectado);
-    }
-
     public void iniciarPartida() {
 
     	if(conectado) {
@@ -128,18 +95,18 @@ public class AtorJogador {
 
         if (ordem == 1) {
         	
-            tela.setPainel(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
-            tela.setPainel(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
-            tela.setPainel(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
-            tela.setPainel(msgs.getString("YourOpponentStartsPlaying"));
+            tela.informar(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
+            tela.informar(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
+            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
+            tela.informar(msgs.getString("YourOpponentStartsPlaying"));
             setDaVez(true);
             
         } else {
         	
-            tela.setPainel(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
-            tela.setPainel(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
-            tela.setPainel(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
-            tela.setPainel(msgs.getString("YouStartPlaying"));
+            tela.informar(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
+            tela.informar(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
+            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
+            tela.informar(msgs.getString("YouStartPlaying"));
             setDaVez(false);
         }
 
@@ -211,7 +178,7 @@ public class AtorJogador {
 
         if (daVez && tabuleiro.isPartidaEmAndamento()) {
             setDaVez(false);
-            tela.setPainel(msgs.getString("WaitUntilYourOpponentHasPlayed"));
+            tela.informar(msgs.getString("WaitUntilYourOpponentHasPlayed"));
             JogadaMorelli jogada;
 
             if (null != tipoJogada) {
@@ -252,7 +219,7 @@ public class AtorJogador {
     public void receberJogada(JogadaMorelli jogada) {
 
         setDaVez(true);
-        tela.setPainel(msgs.getString("YourTimeToPlay"));
+        tela.informar(msgs.getString("YourTimeToPlay"));
         TipoJogada tipoJogada = jogada.getTipoDeJogada();
 
         if (null != tipoJogada) {
@@ -317,4 +284,39 @@ public class AtorJogador {
     	
     	tela.notificar(msgs.getString("IrregularPlay"));
     }
+
+    /*--- Caso de uso: conectar interno*/
+    public void conectar() {
+
+        if (!conectado) {
+
+            String ip = tela.solicitarIpServidor();
+            String nomeJogador = tela.solicitarNomeJogador();
+
+            conectado = tabuleiro.conectar(ip, nomeJogador);
+
+            tela.informar(msgs.getString("Connected"));
+            
+        } else {
+        	
+            tela.notificar(msgs.getString("YouAreAlreadyConnected"));
+        }        
+    }
+
+    public void desconectar() {
+
+        if (conectado) {
+        	
+            tabuleiro.setPartidaEmAndamento(false);
+            conectado = netGames.desconectar();
+//            tela.notificar(msgs.getString("YouAreDisconnected"));
+            
+        } else {
+        	
+            tela.notificar(msgs.getString("YouAreAlreadyDisconnected"));
+        }
+
+        //tela.informarEstadoConexao(conectado);
+    }
+    
 }
