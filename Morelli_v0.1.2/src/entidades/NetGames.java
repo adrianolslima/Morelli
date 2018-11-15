@@ -34,19 +34,31 @@ public class NetGames implements OuvidorProxy {
     }
 
    /*--- Caso de uso: conectar ---*/
-   public boolean conectar(String ip, String nomeJogador) throws Exception {
+   public boolean conectar(String ip, String nomeJogador) {
     	
-    	this.proxy.conectar(ip, nomeJogador);
-        
-        return true;
+    	try {
+    		
+    		this.proxy.conectar(ip, nomeJogador);
+    		return true;
+
+    	} catch (Exception e) {
+    		
+    		return false;
+    	}
     }
 
-   /*--- Caso de uso: desconectar ---*/
-    public boolean desconectar() throws Exception {
+   /*--- Caso de uso: conectar ---*/
+   public boolean desconectar() {
     
-    	this.proxy.desconectar();
+    	try {
+    		
+            this.proxy.desconectar();
+            return false;
+        
+    	} catch (Exception e) {
 
-    	return false;
+        	return true;
+        }
     }
 
     public void iniciarPartida() {

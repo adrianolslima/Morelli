@@ -499,12 +499,13 @@ public class Tabuleiro {
     }
     
     /*--- Caso de uso: conectar ---*/
-    public boolean conectar(String ip, String nomeJogador) throws Exception {
+    public boolean conectar(String ip, String nomeJogador) {
     	
     	return netGames.conectar(ip, nomeJogador);
     }
 
-	public boolean desconectar() throws Exception {
+    /*--- Caso de uso: desconectar ---*/
+	public boolean desconectar() {
 
 		return netGames.desconectar();
 	}

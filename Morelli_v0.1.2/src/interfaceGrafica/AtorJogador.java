@@ -293,13 +293,13 @@ public class AtorJogador {
             String ip = tela.solicitarIpServidor();
             String nomeJogador = tela.solicitarNomeJogador();
 
-            try {
-            	
-            	conectado = tabuleiro.conectar(ip, nomeJogador);
-            	
+           	conectado = tabuleiro.conectar(ip, nomeJogador);
+
+           	if (conectado) {
+           		
             	tela.informar(msgs.getString("Connected"));
             
-            } catch (Exception e) {
+            } else {
 				
             	tela.notificar("Problema na conexão. Tente novamente!");
 			}
@@ -315,13 +315,13 @@ public class AtorJogador {
 
         if (conectado) {
         	
-        	try {
+        	conectado = tabuleiro.desconectar();
+
+        	if (!conectado) {
+        	            
+        		tela.informar(msgs.getString("Disconnected"));
         	
-            conectado = tabuleiro.desconectar();
-            
-            tela.informar(msgs.getString("Disconnected"));
-        	
-        	} catch (Exception e) {
+        	} else {
         		
         		tela.notificar("Problema na desconexão. Tente novamente!");
         	}
