@@ -8,6 +8,8 @@ package interfaceGrafica;
 import entidades.Faixa;
 import entidades.Posicao;
 import entidades.TipoJogada;
+
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Image;
@@ -18,6 +20,9 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 /**
  *
@@ -26,6 +31,8 @@ import javax.swing.text.Document;
 public class TelaJogador extends javax.swing.JFrame {
     
     protected ResourceBundle msgs;
+    
+    StyledDocument doc;
 
     /**
      * Creates new form Tabuleiro
@@ -34,7 +41,10 @@ public class TelaJogador extends javax.swing.JFrame {
     	
     	this.msgs = msgs;
     	
-        initComponents();
+    	initComponents();
+
+    	doc = painel.getStyledDocument();
+    	
         this.defineFaixas();
 
 //        this.inserePreta(botoesVermelhos, 1);
@@ -4496,32 +4506,6 @@ public class TelaJogador extends javax.swing.JFrame {
         }
     }
 
-    /*--- Menu --------------------------------------*/
-    public void conectar() {
-        jogo.conectar();
-    }
-
-    public void iniciarPartida() {
-        jogo.iniciarPartida();
-    }
-    
-    public void abandonarPartida() {
-    	jogo.abandonarPartida();
-    }
-    
-    public void realizarAcordo() {
-    	jogo.enviarJogada(TipoJogada.realizarAcordo);
-    }
-
-    public void desconectar() {
-        jogo.desconectar();
-    }
-
-    public void ajuda() {
-    	painel.setText(jogo.ajuda());
-    }
-    /*-----------------------------------------------*/
-
 //    public void setPainel(String mensagem) {
 //        painel.setText(mensagem);
 //    }
@@ -4597,6 +4581,32 @@ public class TelaJogador extends javax.swing.JFrame {
     	painel.setText(msgs.getString("YouAreAlreadyConnected"));
     }
 
+    /*--- Menu --------------------------------------*/
+    public void conectar() {
+        jogo.conectar();
+    }
+
+    public void iniciarPartida() {
+        jogo.iniciarPartida();
+    }
+    
+    public void abandonarPartida() {
+    	jogo.abandonarPartida();
+    }
+    
+    public void realizarAcordo() {
+    	jogo.enviarJogada(TipoJogada.realizarAcordo);
+    }
+
+    public void desconectar() {
+        jogo.desconectar();
+    }
+
+    public void ajuda() {
+    	jogo.ajuda();
+    }
+    /*-----------------------------------------------*/
+
     public void notificar(String msg) {
     	
         JOptionPane.showMessageDialog(this, msg);
@@ -4604,6 +4614,25 @@ public class TelaJogador extends javax.swing.JFrame {
     
     public void informar(String msg) {
     	
-    	painel.setText(msg);    	
+    	try {
+    	    
+//    		doc.insertString(0, "Start of text\n", null );
+    		doc.insertString(0, msg + "\n\n", null);
+//    		doc.insertString(doc.getLength(), msg + "\n\n", null);
+    	
+    	} catch(Exception e) {
+    	
+    		System.out.println(e); 
+    	}
+    }
+
+    public boolean confirmarReiniciarPartida() {
+        int resposta = JOptionPane.showConfirmDialog(null,
+        		msgs.getString("ThereIsAMatchInProgress") +
+        		System.getProperty("line.separator") +
+        		msgs.getString("DoYouWantToRestartTheMatch"), 
+                msgs.getString("RestartMatch"),
+                JOptionPane.YES_NO_OPTION);
+        return resposta == JOptionPane.YES_OPTION;
     }
 }

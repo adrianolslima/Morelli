@@ -33,49 +33,6 @@ public class NetGames implements OuvidorProxy {
         this.proxy.addOuvinte(this);
     }
 
-   /*--- Caso de uso: conectar ---*/
-   public boolean conectar(String ip, String nomeJogador) {
-    	
-    	try {
-    		
-    		this.proxy.conectar(ip, nomeJogador);
-    		return true;
-
-    	} catch (Exception e) {
-    		
-    		return false;
-    	}
-    }
-
-   /*--- Caso de uso: conectar ---*/
-   public boolean desconectar() {
-    
-    	try {
-    		
-            this.proxy.desconectar();
-            return false;
-        
-    	} catch (Exception e) {
-
-        	return true;
-        }
-    }
-
-    public void iniciarPartida() {
-    
-    	try {
-            this.proxy.iniciarPartida(2);
-        } catch (Exception e) {
-            atorJogador.notificar(e.getMessage());
-        }
-    }
-
-    @Override
-    public void iniciarNovaPartida(Integer posicao) {
-    	
-        atorJogador.receberSolicitacaoInicio(posicao);
-    }
-
     public void enviarJogada(JogadaMorelli jogada) {
     
     	try {
@@ -141,5 +98,54 @@ public class NetGames implements OuvidorProxy {
     public void receberMensagem(String msg) {
         
     	atorJogador.notificar(msg);
+    }
+
+    /*--- Caso de uso: conectar ---*/
+    public boolean conectar(String ip, String nomeJogador) {
+     	
+     	try {
+     		
+     		proxy.conectar(ip, nomeJogador);
+     		return true;
+
+     	} catch (Exception e) {
+     		
+     		return false;
+     	}
+     }
+
+    /*--- Caso de uso: conectar ---*/
+    public boolean desconectar() {
+     
+     	try {
+     		
+             proxy.desconectar();
+             return false;
+         
+     	} catch (Exception e) {
+
+         	return true;
+         }
+     }
+
+    /*--- Caso de uso: iniciar partida ---*/
+    public boolean iniciarPartida() {
+    
+    	try {
+    		
+            proxy.iniciarPartida(2);
+            return true;
+            
+        } catch (Exception e) {
+
+        	return false;
+        }
+    }
+
+    /*--- Caso de uso: iniciar nova partida ---*/
+    @Override
+    public void iniciarNovaPartida(Integer posicao) {
+    	
+        atorJogador.receberSolicitacaoInicio(posicao);
     }
 }

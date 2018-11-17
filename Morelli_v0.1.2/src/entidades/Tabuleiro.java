@@ -10,6 +10,8 @@ public class Tabuleiro {
 
     protected AtorJogador atorJogador;
     protected NetGames netGames;
+    
+    protected Ajuda ajuda;
 
     protected boolean partidaEmAndamento;
 
@@ -29,6 +31,8 @@ public class Tabuleiro {
 
         this.atorJogador = atorJogador;
         this.netGames = new NetGames(this);
+
+        this.ajuda = new Ajuda();
 
         this.partidaEmAndamento = false;
 
@@ -59,7 +63,7 @@ public class Tabuleiro {
     	return tabuleiro;
     }
 
-    public Faixa[] iniciarPartida(Jogador jogador, int ordem, String nomeJogador1, String nomeJogador2) {
+    public Faixa[] iniciarPartida(int ordem, String nomeJogador1, String nomeJogador2) {
 
         jogador1 = new Jogador(nomeJogador1);
         jogador2 = new Jogador(nomeJogador2);
@@ -507,7 +511,58 @@ public class Tabuleiro {
     /*--- Caso de uso: desconectar ---*/
 	public boolean desconectar() {
 
-		return netGames.desconectar();
+		boolean conectado = netGames.desconectar();
+		
+		if (!conectado) {
+			
+			partidaEmAndamento = false;
+		}
+		
+		return conectado;
 	}
+
+	/*--- Caso de uso: ajuda ---*/
+	public String getAjuda() {
+
+		return ajuda.getAjuda();
+	}
+
+	/*--- Caso de uso: iniciar partida ---*/
+	public boolean iniciarPartida() {
+
+		return netGames.iniciarPartida();
+	}
+
+	/*--- Caso de uso: receber solicitacao de inicio ---*/
+    public void receberSolicitacaoInicio(int ordem) {
+
+//        if (ordem == 1) {
+//        	
+//            tela.informar(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
+//            tela.informar(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
+//            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
+//            tela.informar(msgs.getString("YourOpponentStartsPlaying"));
+//            setDaVez(true);
+//            
+//        } else {
+//        	
+//            tela.informar(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
+//            tela.informar(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
+//            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
+//            tela.informar(msgs.getString("YouStartPlaying"));
+//            setDaVez(false);
+//        }
+//
+        String nomeJogador1 = netGames.getNomeAdversario(1);
+        String nomeJogador2 = netGames.getNomeAdversario(2);
+
+        tabuleiro = iniciarPartida(ordem, nomeJogador1, nomeJogador2);
+
+        if (ordem == 1) {
+            atorJogador.enviarJogada(TipoJogada.atualizarTabuleiro);
+            atorJogador.atualizarTabuleiro(tabuleiro);
+        }
+
+    }
 
 }

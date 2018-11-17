@@ -8,14 +8,14 @@ import javax.swing.JOptionPane;
 
 public class AtorJogador {
 
+	protected ResourceBundle msgs;
+	
     protected NetGames netGames;
     protected Tabuleiro tabuleiro;
     protected TelaJogador tela;
     
-    protected ResourceBundle msgs;
-    protected Ajuda ajuda;
-
     protected boolean conectado;
+    protected boolean partidaEmAndamento;
 
     protected Jogador jogador;
     protected boolean daVez;
@@ -26,16 +26,16 @@ public class AtorJogador {
 
     public AtorJogador(ResourceBundle msgs) {
 
+    	this.msgs = msgs;
+    	
         this.netGames = new NetGames(this);
         this.tabuleiro = new Tabuleiro(this, msgs);
         
-        this.msgs = msgs;
-        this.ajuda = new Ajuda();
-
         this.tela = new TelaJogador(this, msgs);
         this.tela.setVisible(true);
 
         this.conectado = false;
+        this.partidaEmAndamento = false;
 
         this.jogador = null;
         this.daVez = false;
@@ -65,74 +65,9 @@ public class AtorJogador {
         return daVez;
     }
 
-    public void iniciarPartida() {
-
-    	if(conectado) {
-
-    		if (tabuleiro.isPartidaEmAndamento()) {
-
-    			tela.notificarPartidaEmAndamento();
-
-    			if (confirmarReiniciarPartida()) {
-
-    				abandonarPartida();
-    				netGames.reiniciarPartida();
-    			}
-
-    		} else {
-
-    			tabuleiro.setPartidaEmAndamento(true);
-    			netGames.iniciarPartida();
-    		}
-
-    	} else {
-        	
-            tela.notificar(msgs.getString("YouAreDisconnected"));
-    	}
-    }
-
-    public void receberSolicitacaoInicio(int ordem) {
-
-        if (ordem == 1) {
-        	
-            tela.informar(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
-            tela.informar(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
-            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
-            tela.informar(msgs.getString("YourOpponentStartsPlaying"));
-            setDaVez(true);
-            
-        } else {
-        	
-            tela.informar(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
-            tela.informar(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
-            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
-            tela.informar(msgs.getString("YouStartPlaying"));
-            setDaVez(false);
-        }
-
-        String nomeJogador1 = netGames.getNomeAdversario(1);
-        String nomeJogador2 = netGames.getNomeAdversario(2);
-
-        tabuleiroAtualizado = tabuleiro.iniciarPartida(jogador, ordem, nomeJogador1, nomeJogador2);
-
-        if (ordem == 1) {
-            enviarJogada(TipoJogada.atualizarTabuleiro);
-            tela.atualizaTabuleiro(tabuleiroAtualizado);
-        }
-
-    }
-
     public void finalizarPartidaEmpate() {
         tabuleiro.setPartidaEmAndamento(false);
         tela.exibeMensagemEmpate();
-    }
-
-    public boolean confirmarReiniciarPartida() {
-        int resposta = JOptionPane.showConfirmDialog(null,
-                msgs.getString("DoYouWantToRestartTheMatch"), 
-                msgs.getString("RestartMatch"),
-                JOptionPane.YES_NO_OPTION);
-        return resposta == JOptionPane.YES_OPTION;
     }
 
     public void realizarAcordo() {
@@ -146,11 +81,6 @@ public class AtorJogador {
         } else {
             enviarJogada(TipoJogada.acordoNegado);
         }
-    }
-
-    public String ajuda() {
-    	
-        return ajuda.getAjuda();
     }
 
     public void movimentarPeca(Posicao origem, Posicao destino) {
@@ -264,12 +194,6 @@ public class AtorJogador {
         }
     }
 
-    public void atualizaTabuleiro(Faixa[] tabuleiroAtualizado) {
-        this.tabuleiroAtualizado = tabuleiroAtualizado;
-        tabuleiro.atualizarTabuleiro(tabuleiroAtualizado);
-        tela.atualizaTabuleiro(tabuleiroAtualizado);
-    }
-
     public void informaPartidaEncerrada() {
     	
         tabuleiro.finalizaPartida();
@@ -301,7 +225,7 @@ public class AtorJogador {
             
             } else {
 				
-            	tela.notificar("Problema na conexão. Tente novamente!");
+            	tela.notificar("String: Problema na conexão. Tente novamente!");
 			}
             
         } else {
@@ -320,16 +244,91 @@ public class AtorJogador {
         	if (!conectado) {
         	            
         		tela.informar(msgs.getString("Disconnected"));
+        		partidaEmAndamento = false;
         	
         	} else {
         		
-        		tela.notificar("Problema na desconexão. Tente novamente!");
+        		tela.notificar("String: Problema na desconexão. Tente novamente!");
         	}
             
         } else {
         	
             tela.notificar(msgs.getString("YouAreAlreadyDisconnected"));
         }
+    }
+
+    /*--- Caso de uso: ajuda interno ---*/
+    public void ajuda() {
+
+    	tela.informar(tabuleiro.getAjuda());
+    }
+
+    /*--- Caso de uso: iniciar partida interno ---*/
+    public void iniciarPartida() {
+
+    	if (conectado && !partidaEmAndamento) {
+    		
+    		partidaEmAndamento = tabuleiro.iniciarPartida();
+    		
+    		if (!partidaEmAndamento) {
+    			
+    			tela.notificar("String: Partida não iniciada!");
+    		}
+
+    	} else if (!conectado) {
+        	
+            tela.notificar(msgs.getString("YouAreDisconnected"));
+    	
+    	} else {
+    		
+    		if (tela.confirmarReiniciarPartida()) {
+
+    			abandonarPartida();
+    			netGames.reiniciarPartida();
+    		}
+    	}
+    }
+
+    public void receberSolicitacaoInicio(int ordem) {
+
+        if (ordem == 1) {
+        	
+            tela.informar(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
+            tela.informar(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
+            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
+            tela.informar(msgs.getString("YourOpponentStartsPlaying"));
+            setDaVez(true);
+            
+        } else {
+        	
+            tela.informar(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
+            tela.informar(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
+            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
+            tela.informar(msgs.getString("YouStartPlaying"));
+            setDaVez(false);
+        }
+
+        String nomeJogador1 = netGames.getNomeAdversario(1);
+        String nomeJogador2 = netGames.getNomeAdversario(2);
+
+        tabuleiroAtualizado = tabuleiro.iniciarPartida(jogador, ordem, nomeJogador1, nomeJogador2);
+
+        if (ordem == 1) {
+            enviarJogada(TipoJogada.atualizarTabuleiro);
+            tela.atualizaTabuleiro(tabuleiroAtualizado);
+        }
+    }
+
+	/*--- Caso de uso: atualizar tabuleiro ---*/
+	public void atualizarTabuleiro(Faixa[] tabuleiro2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+    public void atualizaTabuleiro(Faixa[] tabuleiroAtualizado) {
+        this.tabuleiroAtualizado = tabuleiroAtualizado;
+        tabuleiro.atualizarTabuleiro(tabuleiroAtualizado);
+        tela.atualizaTabuleiro(tabuleiroAtualizado);
     }
     
 }
