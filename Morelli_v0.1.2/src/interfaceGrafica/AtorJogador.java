@@ -28,7 +28,7 @@ public class AtorJogador {
 
     	this.msgs = msgs;
     	
-        this.netGames = new NetGames(this);
+        this.netGames = null;
         this.tabuleiro = new Tabuleiro(this, msgs);
         
         this.tela = new TelaJogador(this, msgs);
@@ -64,6 +64,11 @@ public class AtorJogador {
     	
         return daVez;
     }
+    
+    public boolean isPartidaEmAndamento() {
+    	
+    	return partidaEmAndamento;
+    }
 
     public void finalizarPartidaEmpate() {
         tabuleiro.setPartidaEmAndamento(false);
@@ -77,9 +82,9 @@ public class AtorJogador {
                 JOptionPane.YES_NO_OPTION);
         if (resposta == JOptionPane.YES_OPTION) {
             this.finalizarPartidaEmpate();
-            enviarJogada(TipoJogada.acordoAceito);
+            tabuleiro.enviarJogada(TipoJogada.acordoAceito);
         } else {
-            enviarJogada(TipoJogada.acordoNegado);
+            tabuleiro.enviarJogada(TipoJogada.acordoNegado);
         }
     }
 
@@ -94,7 +99,7 @@ public class AtorJogador {
                         tabuleiro.calcularCaptura(destino);
                         tabuleiro.calcularTomadaTrono(destino);
                         tabuleiroAtualizado = tabuleiro.getTabuleiro();
-                        enviarJogada(TipoJogada.atualizarTabuleiro);
+                        tabuleiro.enviarJogada(TipoJogada.atualizarTabuleiro);
                         tela.atualizaTabuleiro(tabuleiroAtualizado);
                     }
                 }
@@ -146,47 +151,47 @@ public class AtorJogador {
         }
     }
 
-    public void receberJogada(JogadaMorelli jogada) {
-
-        setDaVez(true);
-        tela.informar(msgs.getString("YourTimeToPlay"));
-        TipoJogada tipoJogada = jogada.getTipoDeJogada();
-
-        if (null != tipoJogada) {
-            switch (tipoJogada) {
-                case realizarAcordo:
-                    this.realizarAcordo();
-                    break;
-                case acordoAceito:
-                    finalizarPartidaEmpate();
-                    break;
-                case acordoNegado:
-                    tela.exibeMensagemAcordoNegado();
-                    break;
-                case abandonarPartida:
-                    tabuleiro.setPartidaEmAndamento(false);
-                    netGames.finalizarPartida();
-                    String msg = netGames.getNomeJogador()
-                    		+ " " + msgs.getString("YourTimeToPlay") 
-                    		+ " " + msgs.getString("YouAreTheWinner");
-                    notificar(msg);
-                    break;
-                case atualizarTabuleiro:
-                    atualizaTabuleiro(jogada.getTabuleiro());
-                    break;
-                case encerramento:
-                    informaPartidaEncerrada();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+//    public void receberJogada(JogadaMorelli jogada) {
+//
+//        setDaVez(true);
+//        tela.informar(msgs.getString("YourTimeToPlay"));
+//        TipoJogada tipoJogada = jogada.getTipoDeJogada();
+//
+//        if (null != tipoJogada) {
+//            switch (tipoJogada) {
+//                case realizarAcordo:
+//                    this.realizarAcordo();
+//                    break;
+//                case acordoAceito:
+//                    finalizarPartidaEmpate();
+//                    break;
+//                case acordoNegado:
+//                    tela.exibeMensagemAcordoNegado();
+//                    break;
+//                case abandonarPartida:
+//                    tabuleiro.setPartidaEmAndamento(false);
+//                    netGames.finalizarPartida();
+//                    String msg = netGames.getNomeJogador()
+//                    		+ " " + msgs.getString("YourTimeToPlay") 
+//                    		+ " " + msgs.getString("YouAreTheWinner");
+//                    notificar(msg);
+//                    break;
+//                case atualizarTabuleiro:
+//                    atualizaTabuleiro(jogada.getTabuleiro());
+//                    break;
+//                case encerramento:
+//                    informaPartidaEncerrada();
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//    }
 
     public void abandonarPartida() {
         if (tabuleiro.isPartidaEmAndamento()) {
             tabuleiro.setPartidaEmAndamento(false);
-            enviarJogada(TipoJogada.abandonarPartida);
+            tabuleiro.enviarJogada(TipoJogada.abandonarPartida);
             JOptionPane.showMessageDialog(tela, 
             		msgs.getString("You")
             		+ " " + msgs.getString("YourTimeToPlay")
@@ -289,35 +294,35 @@ public class AtorJogador {
     	}
     }
 
-    public void receberSolicitacaoInicio(int ordem) {
-
-        if (ordem == 1) {
-        	
-            tela.informar(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
-            tela.informar(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
-            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
-            tela.informar(msgs.getString("YourOpponentStartsPlaying"));
-            setDaVez(true);
-            
-        } else {
-        	
-            tela.informar(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
-            tela.informar(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
-            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
-            tela.informar(msgs.getString("YouStartPlaying"));
-            setDaVez(false);
-        }
-
-        String nomeJogador1 = netGames.getNomeAdversario(1);
-        String nomeJogador2 = netGames.getNomeAdversario(2);
-
-        tabuleiroAtualizado = tabuleiro.iniciarPartida(jogador, ordem, nomeJogador1, nomeJogador2);
-
-        if (ordem == 1) {
-            enviarJogada(TipoJogada.atualizarTabuleiro);
-            tela.atualizaTabuleiro(tabuleiroAtualizado);
-        }
-    }
+//    public void receberSolicitacaoInicio(int ordem) {
+//
+//        if (ordem == 1) {
+//        	
+//            tela.informar(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
+//            tela.informar(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
+//            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
+//            tela.informar(msgs.getString("YourOpponentStartsPlaying"));
+//            setDaVez(true);
+//            
+//        } else {
+//        	
+//            tela.informar(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
+//            tela.informar(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
+//            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
+//            tela.informar(msgs.getString("YouStartPlaying"));
+//            setDaVez(false);
+//        }
+//
+//        String nomeJogador1 = netGames.getNomeAdversario(1);
+//        String nomeJogador2 = netGames.getNomeAdversario(2);
+//
+//        tabuleiroAtualizado = tabuleiro.iniciarPartida(ordem, nomeJogador1, nomeJogador2);
+//
+//        if (ordem == 1) {
+//            enviarJogada(TipoJogada.atualizarTabuleiro);
+//            tela.atualizaTabuleiro(tabuleiroAtualizado);
+//        }
+//    }
 
 	/*--- Caso de uso: atualizar tabuleiro ---*/
 	public void atualizarTabuleiro(Faixa[] tabuleiro2) {

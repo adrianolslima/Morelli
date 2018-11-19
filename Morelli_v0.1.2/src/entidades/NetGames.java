@@ -33,15 +33,6 @@ public class NetGames implements OuvidorProxy {
         this.proxy.addOuvinte(this);
     }
 
-    public void enviarJogada(JogadaMorelli jogada) {
-    
-    	try {
-            Proxy.getInstance().enviaJogada(jogada);
-        } catch (Exception e) {
-            atorJogador.notificar(e.getMessage());
-        }
-    }
-
     public void reiniciarPartida() {
         
     	try {
@@ -58,12 +49,6 @@ public class NetGames implements OuvidorProxy {
         } catch (Exception e) {
             atorJogador.notificar(e.getMessage());
         }
-    }
-
-    @Override
-    public void receberJogada(Jogada jogada) {
-     
-    	atorJogador.receberJogada((JogadaMorelli) jogada);
     }
 
     public String getNomeJogador() {
@@ -146,6 +131,22 @@ public class NetGames implements OuvidorProxy {
     @Override
     public void iniciarNovaPartida(Integer posicao) {
     	
-        atorJogador.receberSolicitacaoInicio(posicao);
+        tabuleiro.receberSolicitacaoInicio(posicao);
+    }
+
+    /*--- Caso de uso: enviar jogada ---*/
+    public void enviarJogada(JogadaMorelli jogada) {
+    
+    	try {
+            Proxy.getInstance().enviaJogada(jogada);
+        } catch (Exception e) {
+            atorJogador.notificar(e.getMessage());
+        }
+    }
+
+    @Override
+    public void receberJogada(Jogada jogada) {
+     
+    	tabuleiro.receberJogada((JogadaMorelli) jogada);
     }
 }

@@ -542,7 +542,6 @@ public class Tabuleiro {
 //            tela.informar(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
 //            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
 //            tela.informar(msgs.getString("YourOpponentStartsPlaying"));
-//            setDaVez(true);
 //            
 //        } else {
 //        	
@@ -559,10 +558,89 @@ public class Tabuleiro {
         tabuleiro = iniciarPartida(ordem, nomeJogador1, nomeJogador2);
 
         if (ordem == 1) {
-            atorJogador.enviarJogada(TipoJogada.atualizarTabuleiro);
-            atorJogador.atualizarTabuleiro(tabuleiro);
+            atorJogador.setDaVez(true);
+        	atorJogador.atualizaTabuleiro(tabuleiro);
+            enviarJogada(TipoJogada.atualizarTabuleiro);
         }
+    }
 
+    public void enviarJogada(TipoJogada tipoJogada) {
+
+        if (atorJogador.isDaVez() && atorJogador.isPartidaEmAndamento()) {
+            atorJogador.setDaVez(false);
+//            tela.informar(msgs.getString("WaitUntilYourOpponentHasPlayed"));
+            JogadaMorelli jogada;
+
+            if (null != tipoJogada) {
+                switch (tipoJogada) {
+                    case realizarAcordo:
+                        jogada = new JogadaMorelli(TipoJogada.realizarAcordo);
+                        netGames.enviarJogada(jogada);
+                        break;
+                    case acordoAceito:
+                        jogada = new JogadaMorelli(TipoJogada.acordoAceito);
+                        netGames.enviarJogada(jogada);
+                        netGames.finalizarPartida();
+                        break;
+                    case acordoNegado:
+                        jogada = new JogadaMorelli(TipoJogada.acordoNegado);
+                        netGames.enviarJogada(jogada);
+                        break;
+                    case abandonarPartida:
+                        jogada = new JogadaMorelli(TipoJogada.abandonarPartida);
+                        netGames.enviarJogada(jogada);
+                        break;
+                    case atualizarTabuleiro:
+                        jogada = new JogadaMorelli(tipoJogada.atualizarTabuleiro, tabuleiro);
+                        netGames.enviarJogada(jogada);
+                        break;
+                    default:
+                        jogada = new JogadaMorelli(tipoJogada.encerramento);
+                        String msg = msgs.getString("TheMatchIsOver");
+                        atorJogador.notificar(msg);
+                        netGames.finalizarPartida();
+                        break;
+                }
+
+            }
+        }
+    }
+
+    public void receberJogada(JogadaMorelli jogada) {
+
+        atorJogador.setDaVez(true);
+//        tela.informar(msgs.getString("YourTimeToPlay"));
+        TipoJogada tipoJogada = jogada.getTipoDeJogada();
+
+        if (null != tipoJogada) {
+            switch (tipoJogada) {
+                case realizarAcordo:
+                    this.realizarAcordo();
+                    break;
+                case acordoAceito:
+                    atorJogador.finalizarPartidaEmpate();
+                    break;
+                case acordoNegado:
+//                    tela.exibeMensagemAcordoNegado();
+                    break;
+                case abandonarPartida:
+                    setPartidaEmAndamento(false);
+                    netGames.finalizarPartida();
+                    String msg = netGames.getNomeJogador()
+                    		+ " " + msgs.getString("YourTimeToPlay") 
+                    		+ " " + msgs.getString("YouAreTheWinner");
+                    atorJogador.notificar(msg);
+                    break;
+                case atualizarTabuleiro:
+                	atorJogador.atualizaTabuleiro(jogada.getTabuleiro());
+                    break;
+                case encerramento:
+                	atorJogador.informaPartidaEncerrada();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 }
