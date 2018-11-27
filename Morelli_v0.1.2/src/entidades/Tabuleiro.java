@@ -643,4 +643,9 @@ public class Tabuleiro {
         }
     }
 
+	public void reiniciarPartida() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

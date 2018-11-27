@@ -4582,10 +4582,13 @@ public class TelaJogador extends javax.swing.JFrame {
     }
 
     /*--- Menu --------------------------------------*/
+    
+    /*--- Caso de uso: conectar interno ---*/
     public void conectar() {
         jogo.conectar();
     }
 
+    /*--- Caso de uso: iniciar interno ---*/
     public void iniciarPartida() {
         jogo.iniciarPartida();
     }
@@ -4598,12 +4601,14 @@ public class TelaJogador extends javax.swing.JFrame {
     	jogo.enviarJogada(TipoJogada.realizarAcordo);
     }
 
+    /*--- Caso de uso: conectar interno ---*/
     public void desconectar() {
         jogo.desconectar();
     }
 
+    /*--- Caso de uso: ajuda interno ---*/
     public void ajuda() {
-    	jogo.ajuda();
+    	jogo.getAjuda();
     }
     /*-----------------------------------------------*/
 

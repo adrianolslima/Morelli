@@ -263,7 +263,7 @@ public class AtorJogador {
     }
 
     /*--- Caso de uso: ajuda interno ---*/
-    public void ajuda() {
+    public void getAjuda() {
 
     	tela.informar(tabuleiro.getAjuda());
     }
@@ -289,7 +289,7 @@ public class AtorJogador {
     		if (tela.confirmarReiniciarPartida()) {
 
     			abandonarPartida();
-    			netGames.reiniciarPartida();
+    			tabuleiro.reiniciarPartida();
     		}
     	}
     }

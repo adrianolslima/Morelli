@@ -99,7 +99,7 @@ public class NetGames implements OuvidorProxy {
      	}
      }
 
-    /*--- Caso de uso: conectar ---*/
+    /*--- Caso de uso: desconectar ---*/
     public boolean desconectar() {
      
      	try {
