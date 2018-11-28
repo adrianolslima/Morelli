@@ -8,8 +8,9 @@ import partesInterface.PortLogicaOutbox;
 import partesInterface.PortLogicaProxy;
 import partesInterface.PortLogicaProxyOutbox;
 import partesInterface.PortNG;
+import partesInterface.PortNGOutbox;
 
-public class NetGames implements OuvidorProxy {
+public class NetGames {
 	
 	protected PortLogicaProxy portoLogica;
 	protected PortNG portoNG;
@@ -18,16 +19,11 @@ public class NetGames implements OuvidorProxy {
 //    protected Tabuleiro tabuleiro;
     protected Proxy proxy;
     
-    protected boolean conectado = false;
+    protected boolean conectado;
 
     public NetGames() {
 
-        super();
-
-//        this.tabuleiro = tabuleiro;
-        this.proxy = Proxy.getInstance();
-
-        this.proxy.addOuvinte(this);
+    	this.conectado = false;
     }
 
     public void reiniciarPartida() {
@@ -49,25 +45,21 @@ public class NetGames implements OuvidorProxy {
     	return proxy.obterNomeAdversario(posicao);
     }
 
-    @Override
     public void finalizarPartidaComErro(String msg) {
 
 //        atorJogador.notificar(msg);
     }
 
-    @Override
     public void tratarConexaoPerdida() {
         
     	String msg = "A conexão com o servidor foi perdida. Partida encerrada";
 //        atorJogador.notificar(msg);
     }
 
-    @Override
     public void tratarPartidaNaoIniciada(String message) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public void receberMensagem(String msg) {
         
 //    	atorJogador.notificar(msg);
@@ -75,24 +67,31 @@ public class NetGames implements OuvidorProxy {
 
     /*--- Caso de uso: conectar ---*/
     public boolean conectar(String ip, String nomeJogador) {
+    	
+    	PortNGOutbox outbox = (PortNGOutbox) portoNG.getOutbox();
      	
      	try {
      		
-     		proxy.conectar(ip, nomeJogador);
-     		return true;
+     		outbox.conectar(ip, nomeJogador);
+     		conectado = true;
 
      	} catch (Exception e) {
      		
-     		return false;
+     		System.out.println(e.getMessage());
+     		conectado = false;
      	}
+
+     	return conectado;
      }
 
     /*--- Caso de uso: desconectar ---*/
     public boolean desconectar() {
-     
+    	
+    	PortNGOutbox outbox = (PortNGOutbox) portoNG.getOutbox();
+
      	try {
      		
-             proxy.desconectar();
+             outbox.desconectar();
              return false;
          
      	} catch (Exception e) {
@@ -104,19 +103,21 @@ public class NetGames implements OuvidorProxy {
     /*--- Caso de uso: iniciar partida ---*/
     public boolean iniciarPartida() {
     
+    	PortNGOutbox outbox = (PortNGOutbox) portoNG.getOutbox();
+
     	try {
     		
-            proxy.iniciarPartida(2);
+            outbox.iniciarPartida();
             return true;
             
         } catch (Exception e) {
 
+        	System.out.println(e.getMessage());
         	return false;
         }
     }
 
     /*--- Caso de uso: iniciar nova partida ---*/
-    @Override
     public void iniciarNovaPartida(Integer posicao) {
 
     	PortLogicaProxyOutbox outbox = (PortLogicaProxyOutbox) portoLogica.getOutbox();
@@ -151,7 +152,6 @@ public class NetGames implements OuvidorProxy {
         }
     }
 
-    @Override
     public void receberJogada(Jogada jogada) {
      
     	PortLogicaProxyOutbox outbox = (PortLogicaProxyOutbox) portoLogica.getOutbox();

@@ -2,6 +2,7 @@ package partesInterface;
 
 import br.ufsc.inf.leobr.cliente.Jogada;
 import cip.InterfacePort;
+import classes.JogadaMorelli;
 import estrutura.NetGames;
 import interfaces.ProxyLogica;
 
@@ -28,26 +29,26 @@ public class PortLogicaProxy extends InterfacePort implements ProxyLogica {
 
 	@Override
 	public boolean desconectar() {
-		// TODO Auto-generated method stub
-		return false;
+
+		return netGames.desconectar();
 	}
 
 	@Override
 	public void iniciarPartida() {
-		// TODO Auto-generated method stub
-		
+
+		netGames.iniciarPartida();
 	}
 
 	@Override
 	public void finalizarPartida() {
-		// TODO Auto-generated method stub
-		
+
+		netGames.finalizarPartida();
 	}
 
 	@Override
 	public void enviarJogada(Jogada jogada) {
-		// TODO Auto-generated method stub
-		
+
+		netGames.enviarJogada((JogadaMorelli) jogada);
 	}
 
 	public void setReferenciaInterna(NetGames netGames) {

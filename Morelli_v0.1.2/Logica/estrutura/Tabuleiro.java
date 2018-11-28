@@ -519,7 +519,8 @@ public class Tabuleiro {
     	PortProxyOutbox outboxProxy = (PortProxyOutbox) portoProxy.getOutbox(); 
 
     	outboxProxy.iniciarPartida();
-		return true; 
+    	partidaEmAndamento = true;
+		return partidaEmAndamento; 
 	}
 
 	/*--- Caso de uso: receber solicitacao de inicio ---*/

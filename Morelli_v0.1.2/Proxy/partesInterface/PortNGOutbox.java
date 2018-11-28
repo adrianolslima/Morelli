@@ -55,11 +55,10 @@ public class PortNGOutbox extends NonComponentPortOutbox implements NGProxy {
 		try {
     		
 			((Proxy) externalReference).iniciarPartida(2);
-//            return true;
             
         } catch (Exception e) {
 
-//        	return false;
+        	System.out.println(e.getStackTrace());
         }
 	}
 

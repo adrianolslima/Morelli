@@ -24,7 +24,7 @@ public class AtorJogador implements InterfaceLogica {
     protected boolean conectado;
     protected boolean partidaEmAndamento;
 
-    protected Jogador jogador;
+//    protected Jogador jogador;
     protected boolean daVez;
 
     protected Faixa[] tabuleiroAtualizado;
@@ -41,7 +41,7 @@ public class AtorJogador implements InterfaceLogica {
         this.conectado = false;
         this.partidaEmAndamento = false;
 
-        this.jogador = null;
+//        this.jogador = null;
         this.daVez = false;
 
         this.posicaoOrigem = null;
@@ -49,15 +49,15 @@ public class AtorJogador implements InterfaceLogica {
 
     }
 
-    public void setJogador(Jogador jogador) {
-    	
-        this.jogador = jogador;
-    }
-
-    public Jogador getJogador() {
-    	
-        return jogador;
-    }
+//    public void setJogador(Jogador jogador) {
+//    	
+//        this.jogador = jogador;
+//    }
+//
+//    public Jogador getJogador() {
+//    	
+//        return jogador;
+//    }
 
     public void setDaVez(boolean vez) {
     	

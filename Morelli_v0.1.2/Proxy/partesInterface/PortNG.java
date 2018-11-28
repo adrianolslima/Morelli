@@ -20,12 +20,13 @@ public class PortNG extends InterfacePort implements ProxyNG, OuvidorProxy {
 	public void initialize() {
 
 		outbox = new PortNGOutbox();
+		((PortNGOutbox) outbox).initialize();
 	}
 	
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
-		// TODO Auto-generated method stub
-		
+
+		netGames.iniciarPartida();
 	}
 
 	@Override
@@ -42,8 +43,8 @@ public class PortNG extends InterfacePort implements ProxyNG, OuvidorProxy {
 
 	@Override
 	public void receberJogada(Jogada jogada) {
-		// TODO Auto-generated method stub
-		
+
+		netGames.receberJogada(jogada);
 	}
 
 	@Override
@@ -60,14 +61,14 @@ public class PortNG extends InterfacePort implements ProxyNG, OuvidorProxy {
 
 	@Override
 	public void receberSolicitacaoInicio(int ordem) {
-		// TODO Auto-generated method stub
-		
+
+		netGames.iniciarNovaPartida(ordem);
 	}
 
 	@Override
 	public void receberJogada(JogadaMorelli jogada) {
-		// TODO Auto-generated method stub
-		
+
+		netGames.receberJogada(jogada);		
 	}
 
 	public void setReferenciaInterna(NetGames netGames) {
