@@ -17,7 +17,7 @@
 	<classpathentry kind="lib" path="netgames/NetGamesFileOffline.jar"/>
 	<classpathentry kind="lib" path="netgames/servidor.jar"/>
 	<classpathentry kind="lib" path="ngnrtFramework.jar"/>
-	<classpathentry kind="lib" path="/Component Interface Pattern/CIP.jar" sourcepath="/Component Interface Pattern/CIP.jar"/>
-	<classpathentry kind="src" path="/Morelli_Comuns"/>
+	<classpathentry kind="lib" path="CIP.jar"/>
+	<classpathentry kind="lib" path="Morelli_Comuns.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

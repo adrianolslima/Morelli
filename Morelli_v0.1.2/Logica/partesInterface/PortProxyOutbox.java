@@ -24,16 +24,22 @@ public class PortProxyOutbox extends StandardPortOutbox implements ProxyLogica {
 		((PortLogicaProxy) externalPort).iniciarPartida();
 	}
 
-	@Override
-	public void finalizarPartida() {
-
-		((PortLogicaProxy) externalPort).finalizarPartida();
-	}
+//	@Override
+//	public void finalizarPartida() {
+//
+//		((PortLogicaProxy) externalPort).finalizarPartida();
+//	}
 
 	@Override
 	public void enviarJogada(Jogada jogada) {
 
 		((PortLogicaProxy) externalPort).enviarJogada(jogada);
+	}
+
+	@Override
+	public void reiniciarPartida() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

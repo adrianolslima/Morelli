@@ -19,7 +19,7 @@ public class PortLogicaOutbox extends StandardPortOutbox implements LogicaInterf
 	}
 
 	@Override
-	public String getAjuda() {
+	public String getAuda() {
 		return ((PortInterface) externalPort).getAjuda();
 	}
 
