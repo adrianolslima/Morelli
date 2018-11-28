@@ -38,11 +38,11 @@ public class PortLogicaProxy extends InterfacePort implements ProxyLogica {
 		
 	}
 
-	@Override
-	public void finalizarPartida() {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void finalizarPartida() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void enviarJogada(Jogada jogada) {
@@ -53,6 +53,12 @@ public class PortLogicaProxy extends InterfacePort implements ProxyLogica {
 	public void setReferenciaInterna(NetGames netGames) {
 
 		this.netGames = netGames;
+	}
+
+	@Override
+	public void reiniciarPartida() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

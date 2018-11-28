@@ -33,7 +33,7 @@ public class PortInterface extends InterfacePort implements LogicaInterface {
 	}
 
 	@Override
-	public String getAjuda() {
+	public String getAuda() {
 
 		return tabuleiro.getAjuda();
 	}

@@ -17,7 +17,11 @@
 	<classpathentry kind="lib" path="netgames/NetGamesFileOffline.jar"/>
 	<classpathentry kind="lib" path="netgames/servidor.jar"/>
 	<classpathentry kind="lib" path="ngnrtFramework.jar"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="/Component Interface Pattern/CIP.jar" sourcepath="/Component Interface Pattern/CIP.jar"/>
+=======
+	<classpathentry kind="lib" path="CIP.jar"/>
+>>>>>>> branch 'master' of https://github.com/adrianolslima/Morelli.git
 	<classpathentry kind="lib" path="Morelli_Comuns.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

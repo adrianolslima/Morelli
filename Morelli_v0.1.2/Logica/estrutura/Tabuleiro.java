@@ -380,7 +380,7 @@ public class Tabuleiro {
                             vertice = posicoes[(indice + lado) % numPosicoes];
                             if (vertice.isOcupada()) {
                                 if (vertice.getCor() == cor) {
-                                    Posicao tronoTomado = trono.posicoes[0];
+                                    Posicao tronoTomado = trono.getPosicoes()[0];
                                     tronoTomado.setCor(cor);
                                     tronoTomado.posicionarPeca(cor);
                                     atualizarPosicaoTabuleiro(tronoTomado);
@@ -605,15 +605,11 @@ public class Tabuleiro {
             int x = random.nextInt(2);
 
             if (x == 0) {
-                tabuleiro[6].posicoes[i].preta = true;
-                tabuleiro[6].posicoes[i].ocupada = true;
-                tabuleiro[6].posicoes[i + 24].preta = false;
-                tabuleiro[6].posicoes[i + 24].ocupada = true;
+                tabuleiro[6].getPosicoes()[i].posicionarPeca(true);
+                tabuleiro[6].getPosicoes()[i + 24].posicionarPeca(false);
             } else {
-                tabuleiro[6].posicoes[i].preta = false;
-                tabuleiro[6].posicoes[i].ocupada = true;
-                tabuleiro[6].posicoes[i + 24].preta = true;
-                tabuleiro[6].posicoes[i + 24].ocupada = true;
+                tabuleiro[6].getPosicoes()[i].posicionarPeca(false);
+                tabuleiro[6].getPosicoes()[i + 24].posicionarPeca(true);
             }
         }
     }
