@@ -1,5 +1,11 @@
+/estrutura/
+/interfaceGrafica/
+/morelli/
+/partesInterface/
 /entidades/
 /imagens/
-/interfaceGrafica/
+/peca_branca.png
+/peca_preta.png
+/ApplicationMessages_en_US.properties
+/ApplicationMessages_pt_BR.properties
 /mensagens/
-/morelli/

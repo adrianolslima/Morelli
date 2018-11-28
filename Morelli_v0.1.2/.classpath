@@ -2,15 +2,22 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="Interface"/>
+	<classpathentry kind="src" path="Logica"/>
+	<classpathentry kind="src" path="Proxy"/>
+	<classpathentry kind="src" path="Imagens"/>
+	<classpathentry kind="src" path="Mensagens"/>
+	<classpathentry kind="src" path="Jogo"/>
 	<classpathentry kind="lib" path="dist/lib/netbeans_databindingme_pim.jar"/>
 	<classpathentry kind="lib" path="dist/lib/netbeans_databindingme_svg.jar"/>
 	<classpathentry kind="lib" path="dist/lib/netbeans_databindingme.jar"/>
 	<classpathentry kind="lib" path="dist/lib/NetGamesFileOffline.jar"/>
 	<classpathentry kind="lib" path="dist/lib/ngnrtFramework.jar"/>
 	<classpathentry kind="lib" path="dist/lib/servidor.jar"/>
-	<classpathentry kind="lib" path="dist/Morelli.jar"/>
 	<classpathentry kind="lib" path="netgames/NetGamesFileOffline.jar"/>
 	<classpathentry kind="lib" path="netgames/servidor.jar"/>
 	<classpathentry kind="lib" path="ngnrtFramework.jar"/>
+	<classpathentry kind="lib" path="/Component Interface Pattern/CIP.jar" sourcepath="/Component Interface Pattern/CIP.jar"/>
+	<classpathentry kind="src" path="/Morelli_Comuns"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
