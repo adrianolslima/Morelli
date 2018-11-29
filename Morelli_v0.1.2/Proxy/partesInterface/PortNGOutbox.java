@@ -1,11 +1,7 @@
 package partesInterface;
 
 import br.ufsc.inf.leobr.cliente.Proxy;
-import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
-import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
-import br.ufsc.inf.leobr.cliente.exception.NaoJogandoException;
-import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 import cip.NonComponentPortOutbox;
 import classes.JogadaMorelli;
 import classes.TipoJogada;
@@ -18,7 +14,6 @@ public class PortNGOutbox extends NonComponentPortOutbox implements NGProxy {
 //		Proxy proxy = new Proxy();
 		Proxy proxy = Proxy.getInstance();
 		this.connectNonComponent(proxy);
-
 	}
 	
 	@Override
