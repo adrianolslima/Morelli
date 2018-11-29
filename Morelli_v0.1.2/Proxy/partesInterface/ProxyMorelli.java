@@ -24,5 +24,4 @@ public class ProxyMorelli extends ComponentInterface {
 		netGames.setPortoLogica(pLogicaProxy);
 		netGames.setPortoNG(portNG);
 	}
-
 }

@@ -10,13 +10,15 @@ import partesInterface.PortLogicaProxyOutbox;
 import partesInterface.PortNG;
 import partesInterface.PortNGOutbox;
 
-public class NetGames {
+public class NetGames implements OuvidorProxy {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected PortLogicaProxy portoLogica;
 	protected PortNG portoNG;
 
-//    protected AtorJogador atorJogador;
-//    protected Tabuleiro tabuleiro;
     protected Proxy proxy;
     
     protected boolean conectado;
@@ -24,6 +26,8 @@ public class NetGames {
     public NetGames() {
 
     	this.conectado = false;
+    	proxy = Proxy.getInstance();
+    	proxy.addOuvinte(portoNG);
     }
 
     public void reiniciarPartida() {
@@ -120,6 +124,8 @@ public class NetGames {
     /*--- Caso de uso: iniciar nova partida ---*/
     public void iniciarNovaPartida(Integer posicao) {
 
+    	System.out.println("recebi solicitacao");
+    	
     	PortLogicaProxyOutbox outbox = (PortLogicaProxyOutbox) portoLogica.getOutbox();
 
         outbox.receberSolicitacaoInicio(posicao);
