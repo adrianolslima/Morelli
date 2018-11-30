@@ -11,9 +11,13 @@ public class PortNGOutbox extends NonComponentPortOutbox implements NGProxy {
 
 	public void initialize() {
 		
-//		Proxy proxy = new Proxy();
 		Proxy proxy = Proxy.getInstance();
 		this.connectNonComponent(proxy);
+	}
+	
+	public void connectToNG(PortNG portNG) {
+		
+		((Proxy) externalReference).addOuvinte(portNG);	
 	}
 	
 	@Override

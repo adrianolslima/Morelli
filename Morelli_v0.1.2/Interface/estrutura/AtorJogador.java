@@ -195,7 +195,8 @@ public class AtorJogador implements InterfaceLogica {
 
         if (!conectado) {
 
-            String ip = tela.solicitarIpServidor();
+        	String ip = "localhost";
+//            String ip = tela.solicitarIpServidor();
             String nomeJogador = tela.solicitarNomeJogador();
 
            	conectado = outbox.conectar(ip, nomeJogador);
@@ -329,8 +330,12 @@ public class AtorJogador implements InterfaceLogica {
 
 	/*--- Caso de uso: atualizar tabuleiro ---*/
 	public void atualizarTabuleiro(Faixa[] tabuleiro2) {
-		// TODO Auto-generated method stub
-		
+    	
+    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
+
+        this.tabuleiroAtualizado = tabuleiroAtualizado;
+//        portOutbox.atualizarTabuleiro(tabuleiroAtualizado);
+        tela.atualizaTabuleiro(tabuleiroAtualizado);
 	}
 
     public void atualizaTabuleiro(Faixa[] tabuleiroAtualizado) {

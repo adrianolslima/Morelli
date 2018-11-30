@@ -22,8 +22,8 @@ public class PortProxy extends InterfacePort implements LogicaProxy {
 
 	@Override
 	public void receberSolicitacaoInicio(int ordem) {
-		// TODO Auto-generated method stub
-		
+
+		tabuleiro.receberSolicitacaoInicio(ordem);
 	}
 
 	@Override

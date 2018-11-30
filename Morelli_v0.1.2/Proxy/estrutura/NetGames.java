@@ -26,8 +26,8 @@ public class NetGames implements OuvidorProxy {
     public NetGames() {
 
     	this.conectado = false;
-    	proxy = Proxy.getInstance();
-    	proxy.addOuvinte(portoNG);
+//    	proxy = Proxy.getInstance();
+//    	proxy.addOuvinte(portoNG);
     }
 
     public void reiniciarPartida() {
@@ -124,8 +124,6 @@ public class NetGames implements OuvidorProxy {
     /*--- Caso de uso: iniciar nova partida ---*/
     public void iniciarNovaPartida(Integer posicao) {
 
-    	System.out.println("recebi solicitacao");
-    	
     	PortLogicaProxyOutbox outbox = (PortLogicaProxyOutbox) portoLogica.getOutbox();
 
         outbox.receberSolicitacaoInicio(posicao);
