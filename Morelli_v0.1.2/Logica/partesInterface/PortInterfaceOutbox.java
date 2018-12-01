@@ -7,9 +7,9 @@ import interfaces.InterfaceLogica;
 public class PortInterfaceOutbox extends StandardPortOutbox implements InterfaceLogica {
 
 	@Override
-	public void notificar(String msg) {
+	public void comunicar(boolean notificacao, String msg) {
 
-		((PortLogica) externalPort).notificar(msg);
+		((PortLogica) externalPort).comunicar(notificacao, msg);
 	}
 
 	@Override

@@ -27,9 +27,9 @@ public class PortProxy extends InterfacePort implements LogicaProxy {
 	}
 
 	@Override
-	public void receberJogada(JogadaMorelli Jogada) {
-		// TODO Auto-generated method stub
-		
+	public void receberJogada(JogadaMorelli jogada) {
+
+		tabuleiro.receberJogada(jogada);
 	}
 
 	public void setReferenciaInterna(Tabuleiro tabuleiro) {

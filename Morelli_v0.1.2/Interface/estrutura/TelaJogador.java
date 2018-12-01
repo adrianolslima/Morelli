@@ -4615,8 +4615,8 @@ public class TelaJogador extends javax.swing.JFrame {
     	try {
     	    
 //    		doc.insertString(0, "Start of text\n", null );
-    		doc.insertString(0, msg + "\n\n", null);
-//    		doc.insertString(doc.getLength(), msg + "\n\n", null);
+//    		doc.insertString(0, msg + "\n\n", null);
+    		doc.insertString(doc.getLength(), msg + "\n\n", null);
     	
     	} catch(Exception e) {
     	

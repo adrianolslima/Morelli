@@ -8,9 +8,8 @@
 	<classpathentry kind="src" path="Logica"/>
 	<classpathentry kind="src" path="Proxy"/>
 	<classpathentry kind="lib" path="CIP.jar"/>
-	<classpathentry kind="lib" path="Morelli_Comuns.jar"/>
 	<classpathentry kind="lib" path="ngnrtFramework.jar"/>
+	<classpathentry kind="lib" path="Morelli_Comuns.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="ngnrtFramework-multiProxy-1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

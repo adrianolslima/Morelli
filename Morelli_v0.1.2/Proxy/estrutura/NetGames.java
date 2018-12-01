@@ -134,11 +134,13 @@ public class NetGames implements OuvidorProxy {
     
     	try {
     		
-            Proxy.getInstance().enviaJogada(jogada);
+        	PortNGOutbox outbox = (PortNGOutbox) portoNG.getOutbox();
+            outbox.enviarJogada(jogada);
             return true;
             
         } catch (Exception e) {
-        	
+
+        	System.out.println(e.getMessage());
             return false;
         }
     }

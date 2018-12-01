@@ -1,5 +1,8 @@
 package partesInterface;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import cip.ComponentInterface;
 import estrutura.Tabuleiro;
 
@@ -16,7 +19,11 @@ public class LogicaMorelli extends ComponentInterface {
 		pProxy.initialize();
 		ports.add(pProxy);
 		
-		Tabuleiro tabuleiro = new Tabuleiro();
+		Locale currentLocale = Locale.getDefault();
+		ResourceBundle bundle = ResourceBundle.getBundle(
+				"ApplicationMessages", currentLocale);
+		
+		Tabuleiro tabuleiro = new Tabuleiro(bundle);
 		
 		pInterface.setReferenciaInterna(tabuleiro);
 		pProxy.setReferenciaInterna(tabuleiro);

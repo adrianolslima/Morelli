@@ -21,9 +21,9 @@ public class PortLogica extends InterfacePort implements InterfaceLogica {
 	}
 
 	@Override
-	public void notificar(String msg) {
+	public void comunicar(boolean notificacao, String msg) {
 
-		jogador.notificar(msg);
+		jogador.comunicar(notificacao, msg);
 	}
 
 	@Override

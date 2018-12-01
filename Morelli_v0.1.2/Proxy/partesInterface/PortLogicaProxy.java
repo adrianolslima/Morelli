@@ -34,9 +34,9 @@ public class PortLogicaProxy extends InterfacePort implements ProxyLogica {
 	}
 
 	@Override
-	public void iniciarPartida() {
+	public boolean iniciarPartida() {
 
-		netGames.iniciarPartida();
+		return netGames.iniciarPartida();
 	}
 
 	@Override

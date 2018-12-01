@@ -161,14 +161,14 @@ public class AtorJogador implements InterfaceLogica {
     	
     	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
 
-        if (isPartidaEmAndamento()) {
-            setPartidaEmAndamento(false);
+//        if (isPartidaEmAndamento()) {
+//            setPartidaEmAndamento(false);
             portOutbox.enviarJogada(TipoJogada.abandonarPartida);
             JOptionPane.showMessageDialog(tela, 
             		msgs.getString("You")
             		+ " " + msgs.getString("YourTimeToPlay")
             		+ " " + msgs.getString("YouLost"));
-        }
+//        }
     }
 
     public void informaPartidaEncerrada() {
@@ -181,6 +181,11 @@ public class AtorJogador implements InterfaceLogica {
     public void notificar(String msg) {
     	
         tela.notificar(msg);
+    }
+    
+    public void comunicar(boolean notificacao, String msg) {
+    	
+    	tela.notificar(msg);
     }
 
     public void notificarIrregularidade() {
@@ -228,7 +233,7 @@ public class AtorJogador implements InterfaceLogica {
         	if (!conectado) {
         	            
         		tela.informar(msgs.getString("Disconnected"));
-        		partidaEmAndamento = false;
+//        		partidaEmAndamento = false;
         	
         	} else {
         		
@@ -254,26 +259,19 @@ public class AtorJogador implements InterfaceLogica {
 
     	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
 
-    	if (conectado && !partidaEmAndamento) {
+    	if (conectado) {
     		
-    		partidaEmAndamento = portOutbox.iniciarPartida();
+    		boolean partidaIniciada = portOutbox.iniciarPartida();
     		
-    		if (!partidaEmAndamento) {
+    		if (!partidaIniciada) {
     			
     			tela.notificar("String: Partida não iniciada!");
     		}
 
-    	} else if (!conectado) {
+    	} else {
         	
             tela.notificar(msgs.getString("YouAreDisconnected"));
     	
-    	} else {
-    		
-    		if (tela.confirmarReiniciarPartida()) {
-
-    			abandonarPartida();
-    			portOutbox.reiniciarPartida();
-    		}
     	}
     }
 
@@ -282,15 +280,11 @@ public class AtorJogador implements InterfaceLogica {
 
     	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
 
-        if (daVez && isPartidaEmAndamento()) {
+        if (daVez) {
         	
             setDaVez(false);
             tela.informar(msgs.getString("WaitUntilYourOpponentHasPlayed"));
             portOutbox.enviarJogada(tipoJogada);
-        	
-        } else if (!partidaEmAndamento) {
-        	
-        	tela.notificar("Não há partida em andamento!");
         	
         } else {
         	
@@ -329,23 +323,18 @@ public class AtorJogador implements InterfaceLogica {
 //    }
 
 	/*--- Caso de uso: atualizar tabuleiro ---*/
-	public void atualizarTabuleiro(Faixa[] tabuleiro2) {
+	public void atualizarTabuleiro(Faixa[] tabuleiroAtualizado) {
     	
     	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
 
         this.tabuleiroAtualizado = tabuleiroAtualizado;
 //        portOutbox.atualizarTabuleiro(tabuleiroAtualizado);
+        try {
         tela.atualizaTabuleiro(tabuleiroAtualizado);
+        } catch (Exception e) {
+        	System.out.println(e.getMessage());
+        }
 	}
-
-    public void atualizaTabuleiro(Faixa[] tabuleiroAtualizado) {
-    	
-    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
-
-        this.tabuleiroAtualizado = tabuleiroAtualizado;
-//        portOutbox.atualizarTabuleiro(tabuleiroAtualizado);
-        tela.atualizaTabuleiro(tabuleiroAtualizado);
-    }
 
 	@Override
 	public void informarVencedor() {

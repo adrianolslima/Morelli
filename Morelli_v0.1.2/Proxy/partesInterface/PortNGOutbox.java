@@ -62,11 +62,10 @@ public class PortNGOutbox extends NonComponentPortOutbox implements NGProxy {
 	}
 
 	@Override
-	public void enviarJogada() {
+	public void enviarJogada(JogadaMorelli jogada) {
 
 		try {
     		
-			JogadaMorelli jogada = new JogadaMorelli(TipoJogada.realizarAcordo);
             ((Proxy) externalReference).enviaJogada(jogada);
 //            return true;
             

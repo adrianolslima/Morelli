@@ -3,6 +3,8 @@ package estrutura;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import classes.Ajuda;
 import classes.Faixa;
 import classes.JogadaMorelli;
@@ -11,15 +13,18 @@ import classes.Posicao;
 import classes.TipoJogada;
 import partesInterface.PortInterface;
 import partesInterface.PortInterfaceOutbox;
+import partesInterface.PortLogicaOutbox;
 import partesInterface.PortProxy;
 import partesInterface.PortProxyOutbox;
 
 public class Tabuleiro {
 	
+	/*--- Portos ---*/
 	protected PortInterface portoInterface;
 	protected PortProxy portoProxy;
 
 	protected ResourceBundle msgs;
+	protected TratadorJogadas tratador;
 
 //    protected AtorJogador atorJogador;
 //    protected NetGames netGames;
@@ -39,9 +44,10 @@ public class Tabuleiro {
     protected Posicao posicaoOrigem;
     protected Posicao posicaoDestino;
 
-    public Tabuleiro() {
+    public Tabuleiro(ResourceBundle msgs) {
     	
     	this.msgs = msgs;
+    	this.tratador = new TratadorJogadas(msgs, this);
 
 //        this.atorJogador = atorJogador;
 //        this.netGames = new NetGames(this);
@@ -91,11 +97,6 @@ public class Tabuleiro {
     public Faixa[] getTabuleiro() {
         
     	return tabuleiro;
-    }
-
-    public void abandonarPartida() {
-    
-    	this.partidaEmAndamento = false;
     }
 
     public void realizarAcordo() {
@@ -249,7 +250,7 @@ public class Tabuleiro {
                 }
             }
         } catch (Exception e) {
-            outbox.notificar(e.toString() + " calcularCaptura");
+            outbox.comunicar(true, e.toString() + " calcularCaptura");
         }
     }
 
@@ -341,7 +342,7 @@ public class Tabuleiro {
                 }
             }
         } catch (Exception e) {
-            outbox.notificar(e.toString() + " verificarAdjacentes");
+            outbox.comunicar(true, e.toString() + " verificarAdjacentes");
         }
 
         return adjacentes;
@@ -391,14 +392,14 @@ public class Tabuleiro {
                 }
             }
         } catch (Exception e) {
-            outbox.notificar(e.toString() + " calcularTomadaTrono");            
+            outbox.comunicar(true, e.toString() + " calcularTomadaTrono");            
         }
     }
 
-    public int calcularVerticeFaixa(Faixa faixa) {
-        // TODO - implement Tabuleiro.calcularVerticeFaixa
-        throw new UnsupportedOperationException();
-    }
+//    public int calcularVerticeFaixa(Faixa faixa) {
+//        // TODO - implement Tabuleiro.calcularVerticeFaixa
+//        throw new UnsupportedOperationException();
+//    }
 
     public JogadaMorelli criaJogadaDeFinalizacaoPartida() {
     
@@ -406,15 +407,15 @@ public class Tabuleiro {
         return jogada;
     }
 
-    public boolean definePartidaFinalizada() {
-        // TODO - implement Tabuleiro.definePartidaFinalizada
-        throw new UnsupportedOperationException();
-    }
+//    public boolean definePartidaFinalizada() {
+//        // TODO - implement Tabuleiro.definePartidaFinalizada
+//        throw new UnsupportedOperationException();
+//    }
 
     public void finalizaPartida() {
         
     	setPartidaEmAndamento(false);
-        AtorJogador novoVencedor = this.proximoJogador;
+//        AtorJogador novoVencedor = this.proximoJogador;
     }
 
     public boolean calcularMovimento(Posicao origem, Posicao destino) {
@@ -430,12 +431,12 @@ public class Tabuleiro {
 
         //Verifica se a posicao de destino esta ocupada
         if (destino.isOcupada()) {
-            outbox.notificar("Jogada irregular");
+            outbox.comunicar(true, "Jogada irregular");
         } else {
 
             //Verifica se a peca se move em direcao ao centro do tabuleiro
             if (!movimentoAoCentro(origem, destino)) {
-                outbox.notificar("Jogada irregular");
+                outbox.comunicar(true, "Jogada irregular");
 
             } //Verifica se a peca se move na mesma linha
             else if (calcularMovimentoLinha(origem, destino)) {
@@ -457,10 +458,10 @@ public class Tabuleiro {
         return false;
     }
 
-    public Faixa recuperarFaixaDaPosicao() {
-        // TODO - implement Tabuleiro.recuperarFaixaDaPosicao
-        throw new UnsupportedOperationException();
-    }
+//    public Faixa recuperarFaixaDaPosicao() {
+//        // TODO - implement Tabuleiro.recuperarFaixaDaPosicao
+//        throw new UnsupportedOperationException();
+//    }
 
     public void moverPeca(Posicao origem, Posicao destino) {
     
@@ -515,11 +516,20 @@ public class Tabuleiro {
 
 	/*--- Caso de uso: iniciar partida ---*/
 	public boolean solicitarInicioPartida() {
+		
+		if (partidaEmAndamento) {
+			
+			PortInterfaceOutbox outboxInterface = (PortInterfaceOutbox) portoInterface.getOutbox();
+			
+			outboxInterface.comunicar(true, msgs.getString("ThereIsAMatchInProgress"));
+		
+		} else {
 
-    	PortProxyOutbox outboxProxy = (PortProxyOutbox) portoProxy.getOutbox(); 
+			PortProxyOutbox outboxProxy = (PortProxyOutbox) portoProxy.getOutbox(); 
 
-    	outboxProxy.iniciarPartida();
-    	partidaEmAndamento = true;
+			partidaEmAndamento = outboxProxy.iniciarPartida();
+		}
+    	
 		return partidaEmAndamento; 
 	}
 
@@ -527,7 +537,7 @@ public class Tabuleiro {
     public void receberSolicitacaoInicio(int ordem) {
 
     	PortInterfaceOutbox outboxInterface = (PortInterfaceOutbox) portoInterface.getOutbox();
-    	PortProxyOutbox outboxProxy = (PortProxyOutbox) portoProxy.getOutbox(); 
+//    	PortProxyOutbox outboxProxy = (PortProxyOutbox) portoProxy.getOutbox(); 
 
 //        if (ordem == 1) {
 //        	
@@ -552,14 +562,14 @@ public class Tabuleiro {
 
         if (ordem == 1) {
             setDaVez(true);
-        	outboxInterface.atualizarTabuleiro(tabuleiro);
             enviarJogada(TipoJogada.atualizarTabuleiro);
+        	outboxInterface.atualizarTabuleiro(tabuleiro);
         }
     }
 
     public Faixa[] iniciarPartida(int ordem, String nomeJogador1, String nomeJogador2) {
 
-    	PortInterfaceOutbox outboxInterface = (PortInterfaceOutbox) portoInterface.getOutbox();
+//    	PortInterfaceOutbox outboxInterface = (PortInterfaceOutbox) portoInterface.getOutbox();
 
         jogador = new Jogador(nomeJogador1);
 //        jogador2 = new Jogador(nomeJogador2);
@@ -615,52 +625,6 @@ public class Tabuleiro {
         }
     }
 
-	/*--- Caso de uso: enviar jogada ---*/
-    public void enviarJogada(TipoJogada tipoJogada) {
-
-    	PortInterfaceOutbox outboxInterface = (PortInterfaceOutbox) portoInterface.getOutbox();
-    	PortProxyOutbox outboxProxy = (PortProxyOutbox) portoProxy.getOutbox(); 
-
-        if (isDaVez() && isPartidaEmAndamento()) {
-            setDaVez(false);
-//            tela.informar(msgs.getString("WaitUntilYourOpponentHasPlayed"));
-            JogadaMorelli jogada;
-
-            if (null != tipoJogada) {
-                switch (tipoJogada) {
-                    case realizarAcordo:
-                        jogada = new JogadaMorelli(TipoJogada.realizarAcordo);
-                        outboxProxy.enviarJogada(jogada);
-                        break;
-                    case acordoAceito:
-                        jogada = new JogadaMorelli(TipoJogada.acordoAceito);
-                        outboxProxy.enviarJogada(jogada);
-                        outboxProxy.finalizarPartida();
-                        break;
-                    case acordoNegado:
-                        jogada = new JogadaMorelli(TipoJogada.acordoNegado);
-                        outboxProxy.enviarJogada(jogada);
-                        break;
-                    case abandonarPartida:
-                        jogada = new JogadaMorelli(TipoJogada.abandonarPartida);
-                        outboxProxy.enviarJogada(jogada);
-                        break;
-                    case atualizarTabuleiro:
-                        jogada = new JogadaMorelli(tipoJogada.atualizarTabuleiro, tabuleiro);
-                        outboxProxy.enviarJogada(jogada);
-                        break;
-                    default:
-                        jogada = new JogadaMorelli(tipoJogada.encerramento);
-                        String msg = msgs.getString("TheMatchIsOver");
-                        outboxInterface.notificar(msg);
-                        outboxProxy.finalizarPartida();
-                        break;
-                }
-
-            }
-        }
-    }
-
     public void receberJogada(JogadaMorelli jogada) {
 
     	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
@@ -685,7 +649,7 @@ public class Tabuleiro {
                     outbox.informarVencedor();
                     String msg = msgs.getString("YourTimeToPlay") 
                     		+ " " + msgs.getString("YouAreTheWinner");
-                    outbox.notificar(msg);
+                    outbox.comunicar(true, msg);
                     break;
                 case atualizarTabuleiro:
                 	outbox.atualizarTabuleiro(jogada.getTabuleiro());
@@ -701,8 +665,7 @@ public class Tabuleiro {
 
 	public boolean reiniciarPartida() {
 		// TODO Auto-generated method stub
-		return true;
-		
+		return true;		
 	}
 
     public void movimentarPeca(Posicao origem, Posicao destino) {
@@ -725,7 +688,7 @@ public class Tabuleiro {
                 }
             }
         } catch (Exception e) {
-        	outbox.notificar(e.toString() + " movimentarPeca");
+        	outbox.comunicar(true, e.toString() + " movimentarPeca");
         }
     }
 
@@ -775,6 +738,28 @@ public class Tabuleiro {
 
 	public void setTabuleiro(Faixa[] tabuleiro) {
 		this.tabuleiro = tabuleiro;
+	}
+
+	/*--- Caso de uso: notificar ---*/
+	public void comunicar(boolean notificacao, String msg) {
+
+		PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
+
+		outbox.comunicar(notificacao, msg);
+	}
+
+	public void enviarJogada(TipoJogada tipo) {
+		
+		if (isDaVez() && isPartidaEmAndamento()) {
+			
+			setDaVez(false);
+
+			PortProxyOutbox outbox = (PortProxyOutbox) portoProxy.getOutbox();
+
+			JogadaMorelli jogada = tratador.tratarJogadaEnviada(tipo);
+
+			outbox.enviarJogada(jogada);
+		}
 	}
 
 }
