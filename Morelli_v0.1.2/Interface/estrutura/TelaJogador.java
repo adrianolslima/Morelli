@@ -4591,7 +4591,7 @@ public class TelaJogador extends javax.swing.JFrame {
     }
     
     public void realizarAcordo() {
-    	jogo.enviarJogada(TipoJogada.realizarAcordo);
+    	jogo.proporAcordo();
     }
 
     /*--- Caso de uso: conectar interno ---*/

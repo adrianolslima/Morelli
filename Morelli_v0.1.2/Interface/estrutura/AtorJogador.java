@@ -394,6 +394,13 @@ public class AtorJogador implements InterfaceLogica {
 	public void setPartidaEmAndamento(boolean partidaEmAndamento) {
 		this.partidaEmAndamento = partidaEmAndamento;
 	}
+
+	public void proporAcordo() {
+
+		PortLogicaOutbox outbox = (PortLogicaOutbox) portoLogica.getOutbox();
+
+		outbox.enviarJogada(TipoJogada.proporAcordo);
+	}
 	
 	
     

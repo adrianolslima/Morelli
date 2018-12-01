@@ -26,8 +26,8 @@ public class Enviador {
 
 		switch (tipo) {
 		
-		case realizarAcordo:
-			jogada = new JogadaMorelli(TipoJogada.realizarAcordo);
+		case proporAcordo:
+			jogada = new JogadaMorelli(TipoJogada.proporAcordo);
 			break;
 			
 		case acordoAceito:

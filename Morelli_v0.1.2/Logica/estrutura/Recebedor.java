@@ -23,7 +23,7 @@ public class Recebedor {
 
         if (null != tipoJogada) {
             switch (tipoJogada) {
-                case realizarAcordo:
+                case proporAcordo:
                     tabuleiro.realizarAcordo();
                     break;
                 case acordoAceito:
