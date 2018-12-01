@@ -1,5 +1,6 @@
 package estrutura;
 
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import classes.JogadaMorelli;
@@ -7,23 +8,23 @@ import classes.TipoJogada;
 import partesInterface.PortInterfaceOutbox;
 import partesInterface.PortProxyOutbox;
 
-public class TratadorJogadas {
+public class Enviador {
 
 	protected ResourceBundle msgs;
 	Tabuleiro tabuleiro;
 
-	public TratadorJogadas(ResourceBundle msgs, Tabuleiro tabuleiro) {
+	public Enviador(ResourceBundle msgs, Tabuleiro tabuleiro) {
 
 		this.msgs = msgs;
 		this.tabuleiro = tabuleiro;
 	}
 
 	/*--- Caso de uso: enviar jogada ---*/
-	public JogadaMorelli tratarJogadaEnviada(TipoJogada tipoJogada) {
+	public JogadaMorelli tratarJogada(TipoJogada tipo) {
 
 		JogadaMorelli jogada;
 
-		switch (tipoJogada) {
+		switch (tipo) {
 		
 		case realizarAcordo:
 			jogada = new JogadaMorelli(TipoJogada.realizarAcordo);
@@ -39,8 +40,7 @@ public class TratadorJogadas {
 			break;
 			
 		case abandonarPartida:
-			abandonarPartida();
-			jogada = new JogadaMorelli(TipoJogada.abandonarPartida);
+			jogada = abandonarPartida(tipo);
 			break;
 			
 		case atualizarTabuleiro:
@@ -59,9 +59,13 @@ public class TratadorJogadas {
 	}
 
 
-	public void abandonarPartida() {
+	public JogadaMorelli abandonarPartida(TipoJogada tipo) {
 
+		JogadaMorelli jogada;
+		
 		if (tabuleiro.isPartidaEmAndamento()) {
+			
+			jogada = new JogadaMorelli(tipo);
 
 			tabuleiro.setPartidaEmAndamento(false);
 
@@ -69,10 +73,15 @@ public class TratadorJogadas {
 					+ " " + msgs.getString("YourTimeToPlay")
 					+ " " + msgs.getString("YouLost"));
 			
+			
 		} else {
+			
+			jogada = null;
 			
 			tabuleiro.comunicar(true, msgs.getString("ThereIsNoMatchInProgress"));
 		}
+
+		return jogada;
 	}
 
 }

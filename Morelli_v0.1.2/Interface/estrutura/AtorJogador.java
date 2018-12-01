@@ -161,14 +161,7 @@ public class AtorJogador implements InterfaceLogica {
     	
     	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
 
-//        if (isPartidaEmAndamento()) {
-//            setPartidaEmAndamento(false);
-            portOutbox.enviarJogada(TipoJogada.abandonarPartida);
-            JOptionPane.showMessageDialog(tela, 
-            		msgs.getString("You")
-            		+ " " + msgs.getString("YourTimeToPlay")
-            		+ " " + msgs.getString("YouLost"));
-//        }
+    	portOutbox.enviarJogada(TipoJogada.abandonarPartida);
     }
 
     public void informaPartidaEncerrada() {

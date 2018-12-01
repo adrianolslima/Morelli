@@ -24,7 +24,8 @@ public class Tabuleiro {
 	protected PortProxy portoProxy;
 
 	protected ResourceBundle msgs;
-	protected TratadorJogadas tratador;
+	protected Enviador enviador;
+	protected Recebedor recebedor;
 
 //    protected AtorJogador atorJogador;
 //    protected NetGames netGames;
@@ -47,7 +48,8 @@ public class Tabuleiro {
     public Tabuleiro(ResourceBundle msgs) {
     	
     	this.msgs = msgs;
-    	this.tratador = new TratadorJogadas(msgs, this);
+    	this.enviador = new Enviador(msgs, this);
+    	this.recebedor = new Recebedor(msgs, this);
 
 //        this.atorJogador = atorJogador;
 //        this.netGames = new NetGames(this);
@@ -91,7 +93,11 @@ public class Tabuleiro {
 
     public void atualizarTabuleiro(Faixa[] tabuleiro) {
         
+    	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
+
     	this.tabuleiro = tabuleiro;
+    	
+    	outbox.atualizarTabuleiro(tabuleiro);
     }
 
     public Faixa[] getTabuleiro() {
@@ -625,44 +631,6 @@ public class Tabuleiro {
         }
     }
 
-    public void receberJogada(JogadaMorelli jogada) {
-
-    	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
-
-        setDaVez(true);
-//        tela.informar(msgs.getString("YourTimeToPlay"));
-        TipoJogada tipoJogada = jogada.getTipoDeJogada();
-
-        if (null != tipoJogada) {
-            switch (tipoJogada) {
-                case realizarAcordo:
-                    this.realizarAcordo();
-                    break;
-                case acordoAceito:
-                    outbox.informarEmpate();
-                    break;
-                case acordoNegado:
-//                    tela.exibeMensagemAcordoNegado();
-                    break;
-                case abandonarPartida:
-                    setPartidaEmAndamento(false);
-                    outbox.informarVencedor();
-                    String msg = msgs.getString("YourTimeToPlay") 
-                    		+ " " + msgs.getString("YouAreTheWinner");
-                    outbox.comunicar(true, msg);
-                    break;
-                case atualizarTabuleiro:
-                	outbox.atualizarTabuleiro(jogada.getTabuleiro());
-                    break;
-                case encerramento:
-                	outbox.informarVencedor();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
 	public boolean reiniciarPartida() {
 		// TODO Auto-generated method stub
 		return true;		
@@ -748,18 +716,24 @@ public class Tabuleiro {
 		outbox.comunicar(notificacao, msg);
 	}
 
+	/*--- Caso de uso: enviar jogada ---*/
 	public void enviarJogada(TipoJogada tipo) {
 		
-		if (isDaVez() && isPartidaEmAndamento()) {
-			
-			setDaVez(false);
+		PortProxyOutbox outbox = (PortProxyOutbox) portoProxy.getOutbox();
 
-			PortProxyOutbox outbox = (PortProxyOutbox) portoProxy.getOutbox();
-
-			JogadaMorelli jogada = tratador.tratarJogadaEnviada(tipo);
+		JogadaMorelli jogada = enviador.tratarJogada(tipo);
+		
+		if (jogada != null) {
 
 			outbox.enviarJogada(jogada);
 		}
 	}
+
+    public void receberJogada(JogadaMorelli jogada) {
+
+    	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
+    	
+    	recebedor.tratarJogada(jogada);
+    }
 
 }
