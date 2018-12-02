@@ -4633,4 +4633,12 @@ public class TelaJogador extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION);
         return resposta == JOptionPane.YES_OPTION;
     }
+
+	public int solicitarAcordo() {
+		
+		return JOptionPane.showConfirmDialog(null,
+                msgs.getString("DoYouWantToMakeADealAndFinishTheMatch"),
+                msgs.getString("YourOpponentAskedForADeal"), 
+                JOptionPane.YES_NO_OPTION);
+	}
 }

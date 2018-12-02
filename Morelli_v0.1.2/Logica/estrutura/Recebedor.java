@@ -3,59 +3,79 @@ package estrutura;
 import java.util.ResourceBundle;
 
 import classes.JogadaMorelli;
-import classes.TipoJogada;
 
 public class Recebedor {
 
 	protected ResourceBundle msgs;
-	Tabuleiro tabuleiro;
+	Controlador ctrl;
 
-	public Recebedor(ResourceBundle msgs, Tabuleiro tabuleiro) {
+	public Recebedor(ResourceBundle msgs, Controlador tabuleiro) {
 
 		this.msgs = msgs;
-		this.tabuleiro = tabuleiro;
+		this.ctrl = tabuleiro;
 	}
 
 	public void tratarJogada(JogadaMorelli jogada) {
 
-//        tela.informar(msgs.getString("YourTimeToPlay"));
-        TipoJogada tipoJogada = jogada.getTipoDeJogada();
+		switch (jogada.getTipoDeJogada()) {
+		case proporAcordo:
+			realizarAcordo();
+			break;
+			
+		case acordoAceito:
+			tratarAcordoAceito();
+			break;
+			
+		case acordoNegado:
+			tratarAcordoNegado();
+			break;
 
-        if (null != tipoJogada) {
-            switch (tipoJogada) {
-                case proporAcordo:
-                    tabuleiro.realizarAcordo();
-                    break;
-                case acordoAceito:
-//                    outbox.informarEmpate();
-                    break;
-                case acordoNegado:
-//                    tela.exibeMensagemAcordoNegado();
-                    break;
-                    
-                case abandonarPartida:
-                	abandonarPartida();
-                    break;
-                    
-                case atualizarTabuleiro:
-                	tabuleiro.atualizarTabuleiro(jogada.getTabuleiro());
-//                	outbox.atualizarTabuleiro(jogada.getTabuleiro());
-                    break;
-                default:
-//                	outbox.informarVencedor();
-                    break;
-            }
-        }
+		case abandonarPartida:
+			abandonarPartida();
+			break;
+
+		case atualizarTabuleiro:
+			atualizarTabuleiro(jogada);
+			break;
+			
+		default:
+			//                	outbox.informarVencedor();
+			break;
+		}
+	}
+
+	public void realizarAcordo() {
+    	
+    	ctrl.realizarAcordo();
+    }
+
+    private void tratarAcordoAceito() {
+
+		ctrl.comunicar(false, msgs.getString("TheDealWasAccepted")
+				+ "\n" + msgs.getString("TheMatchEndedTied"));
+		
+		ctrl.finalizarPartida();
+	}
+
+	private void tratarAcordoNegado() {
+
+		ctrl.comunicar(false, msgs.getString("TheDealWasDenied")
+				+ "\n" + msgs.getString("TheMatchWillContinue"));
 	}
 
 	public void abandonarPartida() {
 		
-		tabuleiro.setPartidaEmAndamento(false);
-
-		String msg = msgs.getString("YourTimeToPlay") 
-				+ " " + msgs.getString("YouAreTheWinner");
+		ctrl.setPartidaEmAndamento(false);
 		
-		tabuleiro.comunicar(true, msg);
+		ctrl.comunicar(false,msgs.getString("YourTimeToPlay") 
+				+ " " + msgs.getString("YouAreTheWinner"));
+		
+		ctrl.comunicar(true, "Game Over!");
 	}
 
+	private void atualizarTabuleiro(JogadaMorelli jogada) {
+		
+		ctrl.atualizarTabuleiro(jogada.getTabuleiro());
+		
+	}
 }

@@ -1,7 +1,7 @@
 package partesInterface;
 
 import cip.StandardPortOutbox;
-import classes.TipoJogada;
+import classes.JogadaMorelli;
 import interfaces.LogicaInterface;
 
 public class PortLogicaOutbox extends StandardPortOutbox implements LogicaInterface {
@@ -36,9 +36,9 @@ public class PortLogicaOutbox extends StandardPortOutbox implements LogicaInterf
 	}
 
 	@Override
-	public void enviarJogada(TipoJogada tipojogada) {
+	public void enviarJogada(JogadaMorelli jogada) {
 
-		((PortInterface) externalPort).enviarJogada(tipojogada);
+		((PortInterface) externalPort).enviarJogada(jogada);
 	}
 
 }

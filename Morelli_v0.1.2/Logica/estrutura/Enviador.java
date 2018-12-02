@@ -1,87 +1,122 @@
 package estrutura;
 
-import java.util.Optional;
 import java.util.ResourceBundle;
 
+import classes.Faixa;
 import classes.JogadaMorelli;
+import classes.Posicao;
 import classes.TipoJogada;
-import partesInterface.PortInterfaceOutbox;
-import partesInterface.PortProxyOutbox;
 
 public class Enviador {
 
 	protected ResourceBundle msgs;
-	Tabuleiro tabuleiro;
+	Controlador ctrl;
 
-	public Enviador(ResourceBundle msgs, Tabuleiro tabuleiro) {
+	public Enviador(ResourceBundle msgs, Controlador ctrl) {
 
 		this.msgs = msgs;
-		this.tabuleiro = tabuleiro;
+		this.ctrl = ctrl;
 	}
 
 	/*--- Caso de uso: enviar jogada ---*/
-	public JogadaMorelli tratarJogada(TipoJogada tipo) {
+	public JogadaMorelli tratarJogada(JogadaMorelli jogada) {
 
-		JogadaMorelli jogada;
+		JogadaMorelli jogadaTratada;
 
-		switch (tipo) {
+		switch (jogada.getTipoDeJogada()) {
 		
 		case proporAcordo:
-			jogada = new JogadaMorelli(TipoJogada.proporAcordo);
+			jogadaTratada = proporAcordo(jogada);
 			break;
 			
 		case acordoAceito:
-			jogada = new JogadaMorelli(TipoJogada.acordoAceito);
-			tabuleiro.finalizaPartida();
+			jogadaTratada = tratarAcordoAceito(jogada);
 			break;
 			
 		case acordoNegado:
-			jogada = new JogadaMorelli(TipoJogada.acordoNegado);
+			jogadaTratada = tratarAcordoNegado(jogada);
 			break;
 			
 		case abandonarPartida:
-			jogada = abandonarPartida(tipo);
+			jogadaTratada = abandonarPartida(jogada);
 			break;
 			
 		case atualizarTabuleiro:
-			jogada = new JogadaMorelli(TipoJogada.atualizarTabuleiro, tabuleiro.getTabuleiro());
+			jogadaTratada = atualizarTabuleiro(jogada);
 			break;
 			
 		default:
-			jogada = new JogadaMorelli(TipoJogada.encerramento);
+			jogadaTratada = new JogadaMorelli(TipoJogada.encerramento);
 			String msg = msgs.getString("TheMatchIsOver");
-			tabuleiro.comunicar(true, msg);
-			tabuleiro.finalizaPartida();
+			ctrl.comunicar(true, msg);
+			ctrl.finalizarPartida();
 			break;
 		}
+		
+		return jogadaTratada;
+	}
+
+	private JogadaMorelli proporAcordo(JogadaMorelli jogada) {
+		
+		if (ctrl.isPartidaEmAndamento()) {
+			
+			return jogada;
+		
+		} else {
+			
+			return null;
+		}
+
+	}
+
+
+	private JogadaMorelli tratarAcordoAceito(JogadaMorelli jogada) {
+
+		ctrl.comunicar(false, msgs.getString("YouAcceptedTheDeal")
+				+ "\n" + msgs.getString("TheMatchEndedTied"));
+		
+		ctrl.finalizarPartida();
 		
 		return jogada;
 	}
 
+	private JogadaMorelli tratarAcordoNegado(JogadaMorelli jogada) {
 
-	public JogadaMorelli abandonarPartida(TipoJogada tipo) {
-
-		JogadaMorelli jogada;
+		ctrl.comunicar(false, msgs.getString("YouDeniedTheDeal")
+				+ "\n" + msgs.getString("TheMatchWillContinue"));
 		
-		if (tabuleiro.isPartidaEmAndamento()) {
-			
-			jogada = new JogadaMorelli(tipo);
+		return jogada;
+	}
 
-			tabuleiro.setPartidaEmAndamento(false);
+	public JogadaMorelli abandonarPartida(JogadaMorelli jogada) {
 
-			tabuleiro.comunicar(false, msgs.getString("You")
+		if (ctrl.isPartidaEmAndamento()) {
+
+			ctrl.setPartidaEmAndamento(false);
+
+			ctrl.comunicar(false, msgs.getString("You")
 					+ " " + msgs.getString("YourTimeToPlay")
 					+ " " + msgs.getString("YouLost"));
 			
+			ctrl.comunicar(true, "Game Over!");
+			
+			return jogada;
 			
 		} else {
 			
-			jogada = null;
+			ctrl.comunicar(true, msgs.getString("ThereIsNoMatchInProgress"));
 			
-			tabuleiro.comunicar(true, msgs.getString("ThereIsNoMatchInProgress"));
+			return null;
 		}
+	}
 
-		return jogada;
+	private JogadaMorelli atualizarTabuleiro(JogadaMorelli jogada) {
+		
+		JogadaMorelli jogadaAtualizada = ctrl.movimentarPeca(jogada); 
+		
+		ctrl.setDaVez(false);
+		
+		return jogadaAtualizada;
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import cip.ComponentInterface;
-import estrutura.Tabuleiro;
+import estrutura.Controlador;
 
 public class LogicaMorelli extends ComponentInterface {
 
@@ -23,7 +23,7 @@ public class LogicaMorelli extends ComponentInterface {
 		ResourceBundle bundle = ResourceBundle.getBundle(
 				"ApplicationMessages", currentLocale);
 		
-		Tabuleiro tabuleiro = new Tabuleiro(bundle);
+		Controlador tabuleiro = new Controlador(bundle);
 		
 		pInterface.setReferenciaInterna(tabuleiro);
 		pProxy.setReferenciaInterna(tabuleiro);

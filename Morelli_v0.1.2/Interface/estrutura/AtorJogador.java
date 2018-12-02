@@ -5,13 +5,12 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import classes.Faixa;
-import classes.Jogador;
+import classes.JogadaMorelli;
 import classes.Posicao;
 import classes.TipoJogada;
 import interfaces.InterfaceLogica;
 import partesInterface.PortLogica;
 import partesInterface.PortLogicaOutbox;
-import partesInterface.PortLogicaProxy;
 
 public class AtorJogador implements InterfaceLogica {
 	
@@ -27,7 +26,7 @@ public class AtorJogador implements InterfaceLogica {
 //    protected Jogador jogador;
     protected boolean daVez;
 
-    protected Faixa[] tabuleiroAtualizado;
+    protected Faixa[] tabuleiro;
     protected Posicao posicaoOrigem;
     protected Posicao posicaoDestino;
 
@@ -82,91 +81,34 @@ public class AtorJogador implements InterfaceLogica {
     @Override
     public void solicitarAcordo() {
     	
-    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
-    	
-        int resposta = JOptionPane.showConfirmDialog(null,
-                msgs.getString("DoYouWantToMakeADealAndFinishTheMatch"),
-                msgs.getString("YourOpponentAskedForADeal"), 
-                JOptionPane.YES_NO_OPTION);
+    	int resposta = tela.solicitarAcordo();
+        		
         if (resposta == JOptionPane.YES_OPTION) {
-            this.informarEmpate();
-            portOutbox.enviarJogada(TipoJogada.acordoAceito);
+        	
+            enviarJogada(TipoJogada.acordoAceito);
+            
         } else {
-        	portOutbox.enviarJogada(TipoJogada.acordoNegado);
+        	
+        	enviarJogada(TipoJogada.acordoNegado);
         }
     }
 
     public void movimentarPeca(Posicao origem, Posicao destino) {
+    	
+    	this.posicaoOrigem = origem;
+    	this.posicaoDestino = destino;
         
-    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
-
-    	try {
-            if (daVez && partidaEmAndamento) {
-
-//            	portOutbox.movimentarPeca(origem, destino);
-            	
-            } else if (!partidaEmAndamento) {
-            	
-            	tela.notificar("Não há partida em andamento!");
-            	
-            } else {
-            	
-            	tela.notificar(msgs.getString("ItIsNotYourTurn"));
-            }
-            
-        } catch (Exception e) {
-        	
-            notificar(e.toString() + " movimentarPeca");
-        }
+    	enviarJogada(TipoJogada.atualizarTabuleiro);
     }
-
-//    public void receberJogada(JogadaMorelli jogada) {
-//
-//        setDaVez(true);
-//        tela.informar(msgs.getString("YourTimeToPlay"));
-//        TipoJogada tipoJogada = jogada.getTipoDeJogada();
-//
-//        if (null != tipoJogada) {
-//            switch (tipoJogada) {
-//                case realizarAcordo:
-//                    this.realizarAcordo();
-//                    break;
-//                case acordoAceito:
-//                    finalizarPartidaEmpate();
-//                    break;
-//                case acordoNegado:
-//                    tela.exibeMensagemAcordoNegado();
-//                    break;
-//                case abandonarPartida:
-//                    tabuleiro.setPartidaEmAndamento(false);
-//                    netGames.finalizarPartida();
-//                    String msg = netGames.getNomeJogador()
-//                    		+ " " + msgs.getString("YourTimeToPlay") 
-//                    		+ " " + msgs.getString("YouAreTheWinner");
-//                    notificar(msg);
-//                    break;
-//                case atualizarTabuleiro:
-//                    atualizaTabuleiro(jogada.getTabuleiro());
-//                    break;
-//                case encerramento:
-//                    informaPartidaEncerrada();
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
 
     public void abandonarPartida() {
     	
-    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
-
-    	portOutbox.enviarJogada(TipoJogada.abandonarPartida);
+    	enviarJogada(TipoJogada.abandonarPartida);
     }
 
     public void informaPartidaEncerrada() {
-    	
-    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
+    	//TODO
+//    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
     	
 //    	finalizarPartida();
     }
@@ -178,7 +120,14 @@ public class AtorJogador implements InterfaceLogica {
     
     public void comunicar(boolean notificacao, String msg) {
     	
-    	tela.notificar(msg);
+    	if (notificacao) {
+    		
+    		tela.notificar(msg);
+    		
+    	} else {
+    		
+    		tela.informar(msg);
+    	}
     }
 
     public void notificarIrregularidade() {
@@ -271,18 +220,13 @@ public class AtorJogador implements InterfaceLogica {
     /*--- Caso de uso: enviar jogada interno ---*/
     public void enviarJogada(TipoJogada tipoJogada) {
 
-    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
+    	PortLogicaOutbox outbox = (PortLogicaOutbox) portoLogica.getOutbox();
+    	
+    	JogadaMorelli jogada = new JogadaMorelli(tipoJogada, tabuleiro, posicaoOrigem, posicaoDestino);
 
-        if (daVez) {
-        	
-            setDaVez(false);
-            tela.informar(msgs.getString("WaitUntilYourOpponentHasPlayed"));
-            portOutbox.enviarJogada(tipoJogada);
-        	
-        } else {
-        	
-        	tela.notificar(msgs.getString("ItIsNotYourTurn"));
-        }
+    	tela.informar(msgs.getString("WaitUntilYourOpponentHasPlayed"));
+        
+    	outbox.enviarJogada(jogada);
     }
 
 //    public void receberSolicitacaoInicio(int ordem) {
@@ -318,9 +262,9 @@ public class AtorJogador implements InterfaceLogica {
 	/*--- Caso de uso: atualizar tabuleiro ---*/
 	public void atualizarTabuleiro(Faixa[] tabuleiroAtualizado) {
     	
-    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
+//    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
 
-        this.tabuleiroAtualizado = tabuleiroAtualizado;
+        this.tabuleiro = tabuleiroAtualizado;
 //        portOutbox.atualizarTabuleiro(tabuleiroAtualizado);
         try {
         tela.atualizaTabuleiro(tabuleiroAtualizado);
@@ -368,11 +312,11 @@ public class AtorJogador implements InterfaceLogica {
 	}
 
 	public Faixa[] getTabuleiroAtualizado() {
-		return tabuleiroAtualizado;
+		return tabuleiro;
 	}
 
 	public void setTabuleiroAtualizado(Faixa[] tabuleiroAtualizado) {
-		this.tabuleiroAtualizado = tabuleiroAtualizado;
+		this.tabuleiro = tabuleiroAtualizado;
 	}
 
 	public Posicao getPosicaoOrigem() {
@@ -397,9 +341,7 @@ public class AtorJogador implements InterfaceLogica {
 
 	public void proporAcordo() {
 
-		PortLogicaOutbox outbox = (PortLogicaOutbox) portoLogica.getOutbox();
-
-		outbox.enviarJogada(TipoJogada.proporAcordo);
+		enviarJogada(TipoJogada.proporAcordo);
 	}
 	
 	

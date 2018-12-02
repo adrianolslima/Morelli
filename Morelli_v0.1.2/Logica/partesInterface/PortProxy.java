@@ -2,12 +2,12 @@ package partesInterface;
 
 import cip.InterfacePort;
 import classes.JogadaMorelli;
-import estrutura.Tabuleiro;
+import estrutura.Controlador;
 import interfaces.LogicaProxy;
 
 public class PortProxy extends InterfacePort implements LogicaProxy {
 
-	protected Tabuleiro tabuleiro;
+	protected Controlador tabuleiro;
 	
 	public PortProxy(String id) {
 
@@ -32,7 +32,7 @@ public class PortProxy extends InterfacePort implements LogicaProxy {
 		tabuleiro.receberJogada(jogada);
 	}
 
-	public void setReferenciaInterna(Tabuleiro tabuleiro) {
+	public void setReferenciaInterna(Controlador tabuleiro) {
 
 		this.tabuleiro = tabuleiro;
 	}
