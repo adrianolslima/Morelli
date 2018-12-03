@@ -3,8 +3,7 @@ package estrutura;
 import br.ufsc.inf.leobr.cliente.Jogada;
 import br.ufsc.inf.leobr.cliente.OuvidorProxy;
 import br.ufsc.inf.leobr.cliente.Proxy;
-import classes.*;
-import partesInterface.PortLogicaOutbox;
+import classes.JogadaMorelli;
 import partesInterface.PortLogicaProxy;
 import partesInterface.PortLogicaProxyOutbox;
 import partesInterface.PortNG;
@@ -55,9 +54,8 @@ public class NetGames implements OuvidorProxy {
     }
 
     public void tratarConexaoPerdida() {
-        
-    	String msg = "A conexão com o servidor foi perdida. Partida encerrada";
-//        atorJogador.notificar(msg);
+    	
+    	//TODO
     }
 
     public void tratarPartidaNaoIniciada(String message) {

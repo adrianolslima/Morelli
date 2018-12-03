@@ -3,16 +3,17 @@ package estrutura;
 import java.util.ResourceBundle;
 
 import classes.JogadaMorelli;
+import classes.Posicao;
 
 public class Recebedor {
 
 	protected ResourceBundle msgs;
 	Controlador ctrl;
 
-	public Recebedor(ResourceBundle msgs, Controlador tabuleiro) {
+	public Recebedor(ResourceBundle msgs, Controlador ctrl) {
 
 		this.msgs = msgs;
-		this.ctrl = tabuleiro;
+		this.ctrl = ctrl;
 	}
 
 	public void tratarJogada(JogadaMorelli jogada) {
@@ -39,7 +40,7 @@ public class Recebedor {
 			break;
 			
 		default:
-			//                	outbox.informarVencedor();
+			finalizarPartida(jogada);
 			break;
 		}
 	}
@@ -54,7 +55,7 @@ public class Recebedor {
 		ctrl.comunicar(false, msgs.getString("TheDealWasAccepted")
 				+ "\n" + msgs.getString("TheMatchEndedTied"));
 		
-		ctrl.finalizarPartida();
+		ctrl.setPartidaEmAndamento(true);;
 	}
 
 	private void tratarAcordoNegado() {
@@ -75,7 +76,27 @@ public class Recebedor {
 
 	private void atualizarTabuleiro(JogadaMorelli jogada) {
 		
-		ctrl.atualizarTabuleiro(jogada.getTabuleiro());
+		ctrl.atualizarTabuleiro(jogada.getTabuleiro());		
+	}
+
+	private void finalizarPartida(JogadaMorelli jogada) {
 		
+		ctrl.atualizarTabuleiro(jogada.getTabuleiro());
+
+		Posicao trono = ctrl.getTrono().getPosicoes()[0];
+		
+		if (trono.getCor() == ctrl.getJogador1().getCor()) {
+			
+			ctrl.comunicar(true, msgs.getString("YouAreTheWinner"));
+		
+		} else {
+			
+			ctrl.comunicar(true, msgs.getString("YouLost"));
+		}
+		
+		ctrl.comunicar(true, msgs.getString("TheMatchIsOver"));
+		
+		ctrl.setDaVez(false);
+		ctrl.setPartidaEmAndamento(false);
 	}
 }

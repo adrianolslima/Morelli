@@ -44,9 +44,6 @@ public class Controlador {
     	this.enviador = new Enviador(msgs, this);
     	this.recebedor = new Recebedor(msgs, this);
 
-//        this.atorJogador = atorJogador;
-//        this.netGames = new NetGames(this);
-
         this.ajuda = new Ajuda();
 
         this.partidaEmAndamento = false;
@@ -256,7 +253,7 @@ public class Controlador {
 
     public Posicao[] verificarAdjacentes(Posicao destino) {
     
-    	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
+//    	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
 
     	int linha = destino.getLinha();
         int coluna = destino.getColuna();
@@ -354,7 +351,7 @@ public class Controlador {
 
     public void calcularTomadaTrono(Posicao posicao) {
 
-    	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
+//    	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
 
         int faixa = posicao.getFaixa();
         boolean cor = posicao.getCor();
@@ -412,21 +409,10 @@ public class Controlador {
 //        throw new UnsupportedOperationException();
 //    }
 
-    public JogadaMorelli criaJogadaDeFinalizacaoPartida() {
-    
-    	JogadaMorelli jogada = new JogadaMorelli(TipoJogada.encerramento);
-        return jogada;
-    }
-
 //    public boolean definePartidaFinalizada() {
 //        // TODO - implement Tabuleiro.definePartidaFinalizada
 //        throw new UnsupportedOperationException();
 //    }
-
-    public void finalizarPartida() {
-        
-    	partidaEmAndamento = false;
-    }
 
     public boolean calcularMovimento(Posicao origem, Posicao destino) {
 
@@ -467,11 +453,6 @@ public class Controlador {
 
         return false;
     }
-
-//    public Faixa recuperarFaixaDaPosicao() {
-//        // TODO - implement Tabuleiro.recuperarFaixaDaPosicao
-//        throw new UnsupportedOperationException();
-//    }
 
     public void moverPeca(Posicao origem, Posicao destino) {
     

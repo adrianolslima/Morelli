@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import classes.Faixa;
 import classes.JogadaMorelli;
 import classes.Posicao;
-import classes.TipoJogada;
 
 public class Enviador {
 
@@ -46,10 +45,7 @@ public class Enviador {
 			break;
 			
 		default:
-			jogadaTratada = new JogadaMorelli(TipoJogada.encerramento);
-			String msg = msgs.getString("TheMatchIsOver");
-			ctrl.comunicar(true, msg);
-			ctrl.finalizarPartida();
+			jogadaTratada = finalizarPartida(jogada);
 			break;
 		}
 		
@@ -74,8 +70,8 @@ public class Enviador {
 
 		ctrl.comunicar(false, msgs.getString("YouAcceptedTheDeal")
 				+ "\n" + msgs.getString("TheMatchEndedTied"));
-		
-		ctrl.finalizarPartida();
+
+		ctrl.setPartidaEmAndamento(false);
 		
 		return jogada;
 	}
@@ -117,4 +113,24 @@ public class Enviador {
 		return jogadaAtualizada;
 	}
 
+	private JogadaMorelli finalizarPartida(JogadaMorelli jogada) {
+
+		Posicao trono = ctrl.getTrono().getPosicoes()[0];
+		
+		if (trono.getCor() == ctrl.getJogador1().getCor()) {
+			
+			ctrl.comunicar(true, msgs.getString("YouAreTheWinner"));
+		
+		} else {
+			
+			ctrl.comunicar(true, msgs.getString("YouLost"));
+		}
+		
+		ctrl.comunicar(true, msgs.getString("TheMatchIsOver"));
+		
+		ctrl.setDaVez(false);
+		ctrl.setPartidaEmAndamento(false);
+		
+		return jogada;
+	}
 }

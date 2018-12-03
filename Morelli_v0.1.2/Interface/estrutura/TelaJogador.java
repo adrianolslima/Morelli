@@ -23,7 +23,12 @@ import classes.*;
  */
 public class TelaJogador extends javax.swing.JFrame {
     
-    protected ResourceBundle msgs;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	protected ResourceBundle msgs;
     
     StyledDocument doc;
 
