@@ -24,9 +24,6 @@ public class Controlador {
 	protected Enviador enviador;
 	protected Recebedor recebedor;
 
-//    protected AtorJogador atorJogador;
-//    protected NetGames netGames;
-    
     protected Ajuda ajuda;
 
     protected boolean partidaEmAndamento;
@@ -36,7 +33,6 @@ public class Controlador {
     protected Faixa trono;
 
     protected Jogador jogador;
-//    protected Jogador jogador2;
 
     protected AtorJogador proximoJogador;
     protected Posicao origem;
@@ -302,51 +298,55 @@ public class Controlador {
             //Busca adjacentes na mesma faixa
             posicoes = tabuleiro[faixaAtual].getPosicoes();
             for (Posicao posicao : posicoes) {
-                if (posicao.isOcupada()) {
-                    if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna - 1) {
-                        adjacentes[0] = posicao;
-                    } else if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna) {
-                        adjacentes[1] = posicao;
-                    } else if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna + 1) {
-                        adjacentes[2] = posicao;
-                    } else if (posicao.getLinha() == linha && posicao.getColuna() == coluna + 1) {
-                        adjacentes[3] = posicao;
-                    } else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna + 1) {
-                        adjacentes[4] = posicao;
-                    } else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna) {
-                        adjacentes[5] = posicao;
-                    } else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna - 1) {
-                        adjacentes[6] = posicao;
-                    } else if (posicao.getLinha() == linha && posicao.getColuna() == coluna - 1) {
-                        adjacentes[7] = posicao;
-                    }
-                }
+            	if (posicao != null) {
+            		if (posicao.isOcupada() && posicao.getCor() != cor) {
+            			if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna - 1) {
+            				adjacentes[0] = posicao;
+            			} else if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna) {
+            				adjacentes[1] = posicao;
+            			} else if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna + 1) {
+            				adjacentes[2] = posicao;
+            			} else if (posicao.getLinha() == linha && posicao.getColuna() == coluna + 1) {
+            				adjacentes[3] = posicao;
+            			} else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna + 1) {
+            				adjacentes[4] = posicao;
+            			} else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna) {
+            				adjacentes[5] = posicao;
+            			} else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna - 1) {
+            				adjacentes[6] = posicao;
+            			} else if (posicao.getLinha() == linha && posicao.getColuna() == coluna - 1) {
+            				adjacentes[7] = posicao;
+            			}
+            		}
+            	}
             }
             //Busca adjacentes na faixa inferior
             posicoes = tabuleiro[faixaInferior].getPosicoes();
             for (Posicao posicao : posicoes) {
-                if (posicao.isOcupada()) {
-                    if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna - 1) {
-                        adjacentes[0] = posicao;
-                    } else if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna) {
-                        adjacentes[1] = posicao;
-                    } else if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna + 1) {
-                        adjacentes[2] = posicao;
-                    } else if (posicao.getLinha() == linha && posicao.getColuna() == coluna + 1) {
-                        adjacentes[3] = posicao;
-                    } else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna + 1) {
-                        adjacentes[4] = posicao;
-                    } else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna) {
-                        adjacentes[5] = posicao;
-                    } else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna - 1) {
-                        adjacentes[6] = posicao;
-                    } else if (posicao.getLinha() == linha && posicao.getColuna() == coluna - 1) {
-                        adjacentes[7] = posicao;
-                    }
-                }
+            	if (posicao != null) {
+            		if (posicao.isOcupada() && posicao.getCor() != cor) {
+            			if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna - 1) {
+            				adjacentes[0] = posicao;
+            			} else if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna) {
+            				adjacentes[1] = posicao;
+            			} else if (posicao.getLinha() == linha - 1 && posicao.getColuna() == coluna + 1) {
+            				adjacentes[2] = posicao;
+            			} else if (posicao.getLinha() == linha && posicao.getColuna() == coluna + 1) {
+            				adjacentes[3] = posicao;
+            			} else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna + 1) {
+            				adjacentes[4] = posicao;
+            			} else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna) {
+            				adjacentes[5] = posicao;
+            			} else if (posicao.getLinha() == linha + 1 && posicao.getColuna() == coluna - 1) {
+            				adjacentes[6] = posicao;
+            			} else if (posicao.getLinha() == linha && posicao.getColuna() == coluna - 1) {
+            				adjacentes[7] = posicao;
+            			}
+            		}
+            	}
             }
         } catch (Exception e) {
-            outbox.comunicar(true, e.toString() + " verificarAdjacentes");
+//            outbox.comunicar(true, e.toString() + " verificarAdjacentes");
         }
 
         return adjacentes;
@@ -374,18 +374,25 @@ public class Controlador {
         int numPosicoes = lado * 4;
 
         try {
-            Posicao vertice = posicoes[(indice + lado) % numPosicoes];
+        	int posVertice = (indice + lado) % numPosicoes;
+            Posicao vertice = posicoes[posVertice];
+       
             if (vertice.isOcupada()) {
                 if (vertice.getCor() == cor) {
-                    lado += lado;
-                    vertice = posicoes[(indice + lado) % numPosicoes];
+                    lado = lado * 2;
+                    posVertice = (indice + lado) % numPosicoes;
+                    vertice = posicoes[posVertice];
+            
                     if (vertice.isOcupada()) {
                         if (vertice.getCor() == cor) {
-                            lado += lado;
-                            vertice = posicoes[(indice + lado) % numPosicoes];
+                            lado = lado + lado / 2;
+                            posVertice = (indice + lado) % numPosicoes;
+                            vertice = posicoes[posVertice];
+                    
                             if (vertice.isOcupada()) {
                                 if (vertice.getCor() == cor) {
-                                    Posicao tronoTomado = trono.getPosicoes()[0];
+                            
+                                	Posicao tronoTomado = tabuleiro[0].getPosicoes()[0];
                                     tronoTomado.setCor(cor);
                                     tronoTomado.posicionarPeca(cor);
                                     atualizarPosicaoTabuleiro(tronoTomado);
@@ -396,7 +403,7 @@ public class Controlador {
                 }
             }
         } catch (Exception e) {
-            outbox.comunicar(true, e.toString() + " calcularTomadaTrono");            
+//            outbox.comunicar(true, e.toString() + " calcularTomadaTrono");            
         }
     }
 
@@ -540,68 +547,29 @@ public class Controlador {
     public void receberSolicitacaoInicio(int ordem) {
 
     	PortInterfaceOutbox outboxInterface = (PortInterfaceOutbox) portoInterface.getOutbox();
-//    	PortProxyOutbox outboxProxy = (PortProxyOutbox) portoProxy.getOutbox(); 
-
-//        if (ordem == 1) {
-//        	
-//            tela.informar(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
-//            tela.informar(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
-//            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
-//            tela.informar(msgs.getString("YourOpponentStartsPlaying"));
-//            
-//        } else {
-//        	
-//            tela.informar(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
-//            tela.informar(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
-//            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
-//            tela.informar(msgs.getString("YouStartPlaying"));
-//            setDaVez(false);
-//        }
-//
-//        String nomeJogador1 = outboxProxy.getNomeAdversario(1);
-//        String nomeJogador2 = outboxProxy.getNomeAdversario(2);
-
-        tabuleiro = iniciarPartida(ordem, "nomeJogador1", "nomeJogador2");
 
         if (ordem == 1) {
-            setDaVez(true);
+            
+        	criarTabuleiro();
+        	distribuirPecas();
+        	
+        	jogador = new Jogador("nomeJogador1");
+        	jogador.setPecasPretas();
             
             JogadaMorelli jogada = new JogadaMorelli(TipoJogada.atualizarTabuleiro, tabuleiro);
             
             enviarJogada(jogada);
         	outboxInterface.atualizarTabuleiro(tabuleiro);
-        }
-    }
 
-    public Faixa[] iniciarPartida(int ordem, String nomeJogador1, String nomeJogador2) {
-
-//    	PortInterfaceOutbox outboxInterface = (PortInterfaceOutbox) portoInterface.getOutbox();
-
-        jogador = new Jogador(nomeJogador1);
-//        jogador2 = new Jogador(nomeJogador2);
-
-        //jogador1 joga com as pecas pretas e inica a partida
-//        jogador1.setDaVez(true);
-//        jogador2.setPecasPretas();
-
-        if (ordem == 1) {
-//            outbox.setJogador(jogador1);
         } else {
-//            outbox.setJogador(jogador2);
+        	
+        	jogador = new Jogador("nomeJogador2");
         }
 
-        //Prepara o tabuleiro para iniciar a partida
-        this.limparTabuleiro();
-        if (ordem == 1) {
-            this.distribuiPecas();
-        }
-
-        //Inicia a partida
-        setPartidaEmAndamento(true);
-        return tabuleiro;
+        partidaEmAndamento = true;
     }
 
-    public void limparTabuleiro() {
+    public void criarTabuleiro() {
 
         //Cria as faixas do tabuleiro
         for (int i = 0; i < 7; i++) {
@@ -614,7 +582,7 @@ public class Controlador {
 
     }
 
-    public void distribuiPecas() {
+    public void distribuirPecas() {
 
         for (int i = 0; i <= 23; i++) {
 
@@ -652,11 +620,12 @@ public class Controlador {
     		if (origem.getCor() == jogador.getCor()) {
 
     			if (calcularMovimento(origem, destino)) {
+    				
     				calcularCaptura(destino);
     				calcularTomadaTrono(destino);
-    				//                        tabuleiroAtualizado = tabuleiro.getTabuleiro();
-    				//                        enviarJogada(TipoJogada.atualizarTabuleiro);
     				outbox.atualizarTabuleiro(tabuleiro);
+    				
+    				daVez = false;
     			
     			} else {
     				
@@ -667,18 +636,17 @@ public class Controlador {
     		
     		} else {
     			
-    			String corPedras;
-    			
     			if (jogador.getCor()) {
     				
-    				corPedras = msgs.getString("BlackStones");
+    				outbox.comunicar(true, msgs.getString("YouPlayWith")
+    						+ " " + msgs.getString("BlackStones"));
     				
     			} else {
     				
-    				corPedras = msgs.getString("WhiteStones");
+    				outbox.comunicar(true, msgs.getString("YouPlayWith")
+    						+ " " + msgs.getString("WhiteStones"));
     			}
     			
-    			outbox.comunicar(true, msgs.getString("YouPlayWith"));
     			
     			return null;
     		}

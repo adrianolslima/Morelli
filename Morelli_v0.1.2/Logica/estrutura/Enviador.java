@@ -114,8 +114,6 @@ public class Enviador {
 		
 		JogadaMorelli jogadaAtualizada = ctrl.movimentarPeca(jogada); 
 		
-		ctrl.setDaVez(false);
-		
 		return jogadaAtualizada;
 	}
 
