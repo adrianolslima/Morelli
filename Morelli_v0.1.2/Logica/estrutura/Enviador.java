@@ -2,7 +2,6 @@ package estrutura;
 
 import java.util.ResourceBundle;
 
-import classes.Faixa;
 import classes.JogadaMorelli;
 import classes.Posicao;
 
