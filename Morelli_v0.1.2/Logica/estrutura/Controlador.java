@@ -34,7 +34,6 @@ public class Controlador {
 
     protected Jogador jogador;
 
-    protected AtorJogador proximoJogador;
     protected Posicao origem;
     protected Posicao destino;
 
@@ -50,21 +49,12 @@ public class Controlador {
 
         this.tabuleiro = new Faixa[7]; // O tabuleiro sempre tem 7 faixas
 
-        this.proximoJogador = null;
         this.origem = null;
         this.destino = null;
     }
-    
-    public PortInterface getPortoInterface() {
-		return portoInterface;
-	}
 
 	public void setPortoInterface(PortInterface portoInterface) {
 		this.portoInterface = portoInterface;
-	}
-
-	public PortProxy getPortoProxy() {
-		return portoProxy;
 	}
 
 	public void setPortoProxy(PortProxy portoProxy) {
@@ -91,11 +81,6 @@ public class Controlador {
     	outbox.atualizarTabuleiro(tabuleiro);
     }
 
-    public Faixa[] getTabuleiro() {
-        
-    	return tabuleiro;
-    }
-
     public void realizarAcordo() {
     	
     	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
@@ -103,36 +88,8 @@ public class Controlador {
     	outbox.solicitarAcordo();
     }
 
-    public void atualizaJogadorDaVez() {
-        //TODO
-//    	PortInterfaceOutbox outboxInterface = (PortInterfaceOutbox) portoInterface.getOutbox();
 
-//    	AtorJogador aux = this.atorJogador;
-//        this.atorJogador = this.proximoJogador;
-//        this.proximoJogador = aux;
-    }
-
-    public Posicao getPosicaoOrigem() {
-        
-    	return origem;
-    }
-
-    public void setPosicaoOrigem(Posicao posicaoOrigem) {
-    
-    	this.origem = posicaoOrigem;
-    }
-
-    public Posicao getPosicaoDestino() {
-        
-    	return destino;
-    }
-
-    public void setPosicaoDestino(Posicao posicaoDestino) {
-    
-    	this.destino = posicaoDestino;
-    }
-
-    public boolean movimentoAoCentro(Posicao origem, Posicao destino) {
+    public boolean calcularMovimentoAoCentro(Posicao origem, Posicao destino) {
         
     	return origem.getFaixa() > destino.getFaixa();
     }
@@ -404,16 +361,6 @@ public class Controlador {
         }
     }
 
-//    public int calcularVerticeFaixa(Faixa faixa) {
-//        // TODO - implement Tabuleiro.calcularVerticeFaixa
-//        throw new UnsupportedOperationException();
-//    }
-
-//    public boolean definePartidaFinalizada() {
-//        // TODO - implement Tabuleiro.definePartidaFinalizada
-//        throw new UnsupportedOperationException();
-//    }
-
     public boolean calcularMovimento(Posicao origem, Posicao destino) {
 
     	PortInterfaceOutbox outbox = (PortInterfaceOutbox) portoInterface.getOutbox();
@@ -431,7 +378,7 @@ public class Controlador {
         } else {
 
             //Verifica se a peca se move em direcao ao centro do tabuleiro
-            if (!movimentoAoCentro(origem, destino)) {
+            if (!calcularMovimentoAoCentro(origem, destino)) {
                 outbox.comunicar(true, "Jogada irregular");
 
             } //Verifica se a peca se move na mesma linha
@@ -646,14 +593,6 @@ public class Controlador {
     	}
     }
 
-	public ResourceBundle getMsgs() {
-		return msgs;
-	}
-
-	public void setMsgs(ResourceBundle msgs) {
-		this.msgs = msgs;
-	}
-
 	public boolean isDaVez() {
 		return daVez;
 	}
@@ -666,28 +605,12 @@ public class Controlador {
 		return trono;
 	}
 
-	public void setTrono(Faixa trono) {
-		this.trono = trono;
-	}
-
-	public Jogador getJogador1() {
+	public Jogador getJogador() {
 		return jogador;
 	}
 
-	public void setJogador1(Jogador jogador1) {
+	public void setJogador(Jogador jogador1) {
 		this.jogador = jogador1;
-	}
-
-	public AtorJogador getProximoJogador() {
-		return proximoJogador;
-	}
-
-	public void setProximoJogador(AtorJogador proximoJogador) {
-		this.proximoJogador = proximoJogador;
-	}
-
-	public void setAjuda(Ajuda ajuda) {
-		this.ajuda = ajuda;
 	}
 
 	public void setTabuleiro(Faixa[] tabuleiro) {

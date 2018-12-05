@@ -8,7 +8,7 @@ import classes.Posicao;
 public class Recebedor {
 
 	protected ResourceBundle msgs;
-	Controlador ctrl;
+	protected Controlador ctrl;
 
 	public Recebedor(ResourceBundle msgs, Controlador ctrl) {
 
@@ -85,7 +85,7 @@ public class Recebedor {
 
 		Posicao trono = ctrl.getTrono().getPosicoes()[0];
 		
-		if (trono.getCor() == ctrl.getJogador1().getCor()) {
+		if (trono.getCor() == ctrl.getJogador().getCor()) {
 			
 			ctrl.comunicar(true, msgs.getString("YouAreTheWinner"));
 		
