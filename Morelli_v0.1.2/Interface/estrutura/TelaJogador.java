@@ -45,7 +45,6 @@ public class TelaJogador extends javax.swing.JFrame {
     	
         this.defineFaixas();
 
-//        this.inserePreta(botoesVermelhos, 1);
         jogo = atorJogador;
     }
 
@@ -4369,15 +4368,15 @@ public class TelaJogador extends javax.swing.JFrame {
         botao.setIcon(icon);
     }
 
-    public void atualizaTabuleiro(Faixa[] faixas) {
+    public void atualizarTabuleiro(Faixa[] tabuleiro) {
 
-        Faixa faixaRoxa = faixas[0];
-        Faixa faixaAzulEscuro = faixas[1];
-        Faixa faixaAzulClaro = faixas[2];
-        Faixa faixaVerde = faixas[3];
-        Faixa faixaAmarela = faixas[4];
-        Faixa faixaLaranja = faixas[5];
-        Faixa faixaVermelha = faixas[6];
+        Faixa faixaRoxa = tabuleiro[0];
+        Faixa faixaAzulEscuro = tabuleiro[1];
+        Faixa faixaAzulClaro = tabuleiro[2];
+        Faixa faixaVerde = tabuleiro[3];
+        Faixa faixaAmarela = tabuleiro[4];
+        Faixa faixaLaranja = tabuleiro[5];
+        Faixa faixaVermelha = tabuleiro[6];
 
         Posicao[] posicoes = faixaVermelha.getPosicoes();
         for (int i = 0; i < posicoes.length; i++) {
@@ -4504,10 +4503,6 @@ public class TelaJogador extends javax.swing.JFrame {
         }
     }
 
-//    public void setPainel(String mensagem) {
-//        painel.setText(mensagem);
-//    }
-
     public String solicitarIpServidor() {
 
         String ip = "";
@@ -4530,53 +4525,9 @@ public class TelaJogador extends javax.swing.JFrame {
         return nome;
     }
 
-    public void notificarConectado() {
-    	
-        JOptionPane.showMessageDialog(this, this.msgs.getString("YouAreAlreadyConnected"));
-    }
-
-    public void informarEstadoConexao(boolean conectado) {
-    	
-        if (conectado) {
-            painel.setText(msgs.getString("Connected"));
-        } else {
-            painel.setText(msgs.getString("Disonnected"));
-        }
-    }
-
-    public void notificarFalhaDesconexao() {
-    	
-        JOptionPane.showMessageDialog(this, msgs.getString("FailedToConnect"));
-    }
-
-    public void notificarPartidaEmAndamento() {
-    	
-    	painel.setText(msgs.getString("ThereIsAMatchInProgress"));
-    }
-
-    public void notificarResultado(String msg) {
-    	
-    	painel.setText(msg);
-    }
-
     public void exibeMensagemEmpate() {
     	
     	painel.setText(msgs.getString("TheDealWasAcceptedAndTheMatchEndedTied"));
-    }
-
-    public void exibeMensagemAcordoNegado() {
-    	
-    	painel.setText(msgs.getString("TheDealWasDeniedAndTheMatchWillContinue"));
-    }
-
-    public void notificaNaoJogando() {
-    	
-        JOptionPane.showMessageDialog(this, msgs.getString("ItIsNotYourTurn"));
-    }
-
-    public void notificaJaConectado() {
-    	
-    	painel.setText(msgs.getString("YouAreAlreadyConnected"));
     }
 
     /*--- Menu --------------------------------------*/
@@ -4619,24 +4570,12 @@ public class TelaJogador extends javax.swing.JFrame {
     	
     	try {
     	    
-//    		doc.insertString(0, "Start of text\n", null );
-//    		doc.insertString(0, msg + "\n\n", null);
     		doc.insertString(doc.getLength(), msg + "\n\n", null);
     	
     	} catch(Exception e) {
     	
     		System.out.println(e); 
     	}
-    }
-
-    public boolean confirmarReiniciarPartida() {
-        int resposta = JOptionPane.showConfirmDialog(null,
-        		msgs.getString("ThereIsAMatchInProgress") +
-        		System.getProperty("line.separator") +
-        		msgs.getString("DoYouWantToRestartTheMatch"), 
-                msgs.getString("RestartMatch"),
-                JOptionPane.YES_NO_OPTION);
-        return resposta == JOptionPane.YES_OPTION;
     }
 
 	public int solicitarAcordo() {

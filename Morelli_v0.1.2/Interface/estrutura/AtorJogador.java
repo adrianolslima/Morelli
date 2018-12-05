@@ -21,10 +21,6 @@ public class AtorJogador implements InterfaceLogica {
     protected TelaJogador tela;
     
     protected boolean conectado;
-    protected boolean partidaEmAndamento;
-
-//    protected Jogador jogador;
-    protected boolean daVez;
 
     protected Faixa[] tabuleiro;
     protected Posicao posicaoOrigem;
@@ -38,43 +34,14 @@ public class AtorJogador implements InterfaceLogica {
         this.tela.setVisible(true);
 
         this.conectado = false;
-        this.partidaEmAndamento = false;
-
-//        this.jogador = null;
-        this.daVez = false;
 
         this.posicaoOrigem = null;
         this.posicaoDestino = null;
 
     }
 
-//    public void setJogador(Jogador jogador) {
-//    	
-//        this.jogador = jogador;
-//    }
-//
-//    public Jogador getJogador() {
-//    	
-//        return jogador;
-//    }
-
-    public void setDaVez(boolean vez) {
-    	
-        this.daVez = vez;
-    }
-
-    public boolean isDaVez() {
-    	
-        return daVez;
-    }
-    
-    public boolean isPartidaEmAndamento() {
-    	
-    	return partidaEmAndamento;
-    }
-
     public void informarEmpate() {
-        setPartidaEmAndamento(false);
+
         tela.exibeMensagemEmpate();
     }
 
@@ -106,11 +73,8 @@ public class AtorJogador implements InterfaceLogica {
     	enviarJogada(TipoJogada.abandonarPartida);
     }
 
-    public void informaPartidaEncerrada() {
+    public void informarPartidaEncerrada() {
     	//TODO
-//    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
-    	
-//    	finalizarPartida();
     }
 
     public void notificar(String msg) {
@@ -142,8 +106,7 @@ public class AtorJogador implements InterfaceLogica {
 
         if (!conectado) {
 
-        	String ip = "localhost";
-//            String ip = tela.solicitarIpServidor();
+            String ip = tela.solicitarIpServidor();
             String nomeJogador = tela.solicitarNomeJogador();
 
            	conectado = outbox.conectar(ip, nomeJogador);
@@ -175,7 +138,6 @@ public class AtorJogador implements InterfaceLogica {
         	if (!conectado) {
         	            
         		tela.informar(msgs.getString("Disconnected"));
-//        		partidaEmAndamento = false;
         	
         	} else {
         		
@@ -229,45 +191,13 @@ public class AtorJogador implements InterfaceLogica {
     	outbox.enviarJogada(jogada);
     }
 
-//    public void receberSolicitacaoInicio(int ordem) {
-//
-//        if (ordem == 1) {
-//        	
-//            tela.informar(msgs.getString("Name") + netGames.getNomeAdversario(1) + "\n");
-//            tela.informar(msgs.getString("Opponent") + netGames.getNomeAdversario(2) + "\n\n");
-//            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("WhiteStones") + ".\n");
-//            tela.informar(msgs.getString("YourOpponentStartsPlaying"));
-//            setDaVez(true);
-//            
-//        } else {
-//        	
-//            tela.informar(msgs.getString("Name") + ": " + netGames.getNomeAdversario(2) + "\n");
-//            tela.informar(msgs.getString("Opponent") + ": " + netGames.getNomeAdversario(1) + "\n\n");
-//            tela.informar(msgs.getString("YouPlayWith") + " " + msgs.getString("BlackStones") + ".\n");
-//            tela.informar(msgs.getString("YouStartPlaying"));
-//            setDaVez(false);
-//        }
-//
-//        String nomeJogador1 = netGames.getNomeAdversario(1);
-//        String nomeJogador2 = netGames.getNomeAdversario(2);
-//
-//        tabuleiroAtualizado = tabuleiro.iniciarPartida(ordem, nomeJogador1, nomeJogador2);
-//
-//        if (ordem == 1) {
-//            enviarJogada(TipoJogada.atualizarTabuleiro);
-//            tela.atualizaTabuleiro(tabuleiroAtualizado);
-//        }
-//    }
-
 	/*--- Caso de uso: atualizar tabuleiro ---*/
 	public void atualizarTabuleiro(Faixa[] tabuleiroAtualizado) {
     	
-//    	PortLogicaOutbox portOutbox = (PortLogicaOutbox) portoLogica.getOutbox();
-
         this.tabuleiro = tabuleiroAtualizado;
-//        portOutbox.atualizarTabuleiro(tabuleiroAtualizado);
+
         try {
-        tela.atualizaTabuleiro(tabuleiroAtualizado);
+        	tela.atualizarTabuleiro(tabuleiroAtualizado);
         } catch (Exception e) {
         	System.out.println(e.getMessage());
         }
@@ -279,64 +209,8 @@ public class AtorJogador implements InterfaceLogica {
 		
 	}
 
-	public PortLogica getPortoLogica() {
-		return portoLogica;
-	}
-
 	public void setPortoLogica(PortLogica portoLogica) {
 		this.portoLogica = portoLogica;
-	}
-
-	public ResourceBundle getMsgs() {
-		return msgs;
-	}
-
-	public void setMsgs(ResourceBundle msgs) {
-		this.msgs = msgs;
-	}
-
-	public TelaJogador getTela() {
-		return tela;
-	}
-
-	public void setTela(TelaJogador tela) {
-		this.tela = tela;
-	}
-
-	public boolean isConectado() {
-		return conectado;
-	}
-
-	public void setConectado(boolean conectado) {
-		this.conectado = conectado;
-	}
-
-	public Faixa[] getTabuleiroAtualizado() {
-		return tabuleiro;
-	}
-
-	public void setTabuleiroAtualizado(Faixa[] tabuleiroAtualizado) {
-		this.tabuleiro = tabuleiroAtualizado;
-	}
-
-	public Posicao getPosicaoOrigem() {
-		return posicaoOrigem;
-	}
-
-	public void setPosicaoOrigem(Posicao posicaoOrigem) {
-		this.posicaoOrigem = posicaoOrigem;
-	}
-
-	public Posicao getPosicaoDestino() {
-		return posicaoDestino;
-	}
-
-	public void setPosicaoDestino(Posicao posicaoDestino) {
-		this.posicaoDestino = posicaoDestino;
-	}
-
-	public void setPartidaEmAndamento(boolean partidaEmAndamento) {
-		this.partidaEmAndamento = partidaEmAndamento;
 	}
 
 	public void proporAcordo() {
