@@ -34,8 +34,5 @@ public class Morelli {
 		InterfacePort portPL = pm.getPort("proxyLogica");
 		lm.connect(portPL, "logicaProxy");
 		pm.connect(portLP, "proxyLogica");
-		
-//		InterfacePort portPN = pm.getPort("proxyNG");
-		
 	}
 }
